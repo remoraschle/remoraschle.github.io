@@ -1,22 +1,466 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>remoraschle.github.io</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		html, body {
+			height: 100%;
+			overflow: hidden;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+			color: #1d3557;
+		}
+
+		/* ---------- Slope ---------- */
+		.slope {
+			position: relative;
+			width: 100vw;
+			height: 100vh;
+			background:
+				radial-gradient(ellipse at 50% -20%, #cfe8ff 0%, #ffffff 55%, #e9f2fb 100%);
+			overflow: hidden;
+		}
+
+		/* Snow texture — tiny dots scrolling upward to fake downhill motion */
+		.slope::before,
+		.slope::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 200%;
+			pointer-events: none;
+			background-image:
+				radial-gradient(circle, rgba(160,185,210,0.55) 1px, transparent 1.5px),
+				radial-gradient(circle, rgba(160,185,210,0.35) 1px, transparent 1.5px);
+			background-size: 40px 40px, 70px 70px;
+			background-position: 0 0, 20px 25px;
+			animation: scroll-up 4s linear infinite;
+		}
+		.slope::after {
+			background-size: 90px 90px, 140px 140px;
+			opacity: 0.6;
+			animation-duration: 7s;
+		}
+
+		@keyframes scroll-up {
+			from { transform: translateY(0); }
+			to   { transform: translateY(-50%); }
+		}
+
+		/* ---------- Side decoration: trees (flying past) ---------- */
+		.trees {
+			position: absolute;
+			top: 0;
+			width: 80px;
+			height: 200%;
+			animation: scroll-up 6s linear infinite;
+			pointer-events: none;
+		}
+		.trees.left  { left: 2%; }
+		.trees.right { right: 2%; }
+
+		.tree {
+			position: absolute;
+			width: 0;
+			height: 0;
+			border-left: 22px solid transparent;
+			border-right: 22px solid transparent;
+			border-bottom: 55px solid #2a7a4a;
+			filter: drop-shadow(0 4px 2px rgba(0,0,0,0.15));
+		}
+		.tree::after {
+			content: "";
+			position: absolute;
+			top: 55px;
+			left: -6px;
+			width: 12px;
+			height: 14px;
+			background: #5b3a1e;
+		}
+		.trees .tree:nth-child(1) { top: 4%;  left: 10px; }
+		.trees .tree:nth-child(2) { top: 22%; left: -10px; transform: scale(0.85); }
+		.trees .tree:nth-child(3) { top: 42%; left: 20px; transform: scale(1.1); }
+		.trees .tree:nth-child(4) { top: 63%; left: 0px; }
+		.trees .tree:nth-child(5) { top: 82%; left: 15px; transform: scale(0.9); }
+
+		/* Slalom flags near center */
+		.flag {
+			position: absolute;
+			width: 2px;
+			height: 36px;
+			background: #5b3a1e;
+		}
+		.flag::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 2px;
+			width: 20px;
+			height: 14px;
+			background: #e63946;
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
+		}
+		.flag.blue::after { background: #1d6fd1; }
+
+		.flags {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 60px;
+			height: 200%;
+			animation: scroll-up 6s linear infinite;
+			pointer-events: none;
+		}
+		.flags .flag:nth-child(1) { top: 8%;  left: 10px; }
+		.flags .flag:nth-child(2) { top: 22%; left: 40px; }
+		.flags .flag:nth-child(3) { top: 37%; left: 5px; }
+		.flags .flag:nth-child(4) { top: 53%; left: 45px; }
+		.flags .flag:nth-child(5) { top: 68%; left: 15px; }
+		.flags .flag:nth-child(6) { top: 84%; left: 40px; }
+
+		/* ---------- Title ---------- */
+		.title {
+			position: absolute;
+			top: 18px;
+			left: 0;
+			right: 0;
+			text-align: center;
+			z-index: 10;
+			font-size: 20px;
+			letter-spacing: 0.08em;
+			color: #1d3557;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+		}
+		.legend {
+			position: absolute;
+			bottom: 12px;
+			left: 0;
+			right: 0;
+			text-align: center;
+			z-index: 10;
+			font-size: 12px;
+			color: #4a6075;
+			letter-spacing: 0.05em;
+		}
+
+		/* ---------- Skier: vertical traveler ---------- */
+		.traveler {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 60px;
+			height: 90px;
+			margin-left: -30px;
+			animation: travel 14s linear infinite;
+			will-change: transform;
+		}
+		@keyframes travel {
+			0%   { transform: translateY(-20vh); }
+			100% { transform: translateY(110vh); }
+		}
+
+		/* Turn pattern wrapper — sits inside traveler so transforms stack */
+		.turn {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			will-change: transform;
+			transform-origin: 50% 70%;
+		}
+
+		/* ---------- Turn patterns ---------- */
+		/* Short turns: fast, narrow zig-zag */
+		.turn.short-turns {
+			animation: short-turns 1.2s ease-in-out infinite;
+		}
+		@keyframes short-turns {
+			0%   { transform: translateX(-35px) rotate(-14deg); }
+			25%  { transform: translateX(0px)   rotate(0deg); }
+			50%  { transform: translateX(35px)  rotate(14deg); }
+			75%  { transform: translateX(0px)   rotate(0deg); }
+			100% { transform: translateX(-35px) rotate(-14deg); }
+		}
+
+		/* Carving: wide, slow, sweeping S-turns */
+		.turn.carving {
+			animation: carving 4.2s ease-in-out infinite;
+		}
+		@keyframes carving {
+			0%   { transform: translateX(-22vw) rotate(-26deg); }
+			50%  { transform: translateX( 22vw) rotate( 26deg); }
+			100% { transform: translateX(-22vw) rotate(-26deg); }
+		}
+
+		/* Medium GS-style turns */
+		.turn.medium-turns {
+			animation: medium-turns 2.4s ease-in-out infinite;
+		}
+		@keyframes medium-turns {
+			0%   { transform: translateX(-10vw) rotate(-20deg); }
+			50%  { transform: translateX( 10vw) rotate( 20deg); }
+			100% { transform: translateX(-10vw) rotate(-20deg); }
+		}
+
+		/* ---------- Skier figure ---------- */
+		.skier {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: 60px;
+			height: 90px;
+			transform: translate(-50%, -50%);
+		}
+
+		.skier .head {
+			position: absolute;
+			top: 4px;
+			left: 50%;
+			width: 14px;
+			height: 14px;
+			margin-left: -7px;
+			background: #f4c9a0;
+			border-radius: 50%;
+			box-shadow: inset 0 -3px 0 #1d3557; /* helmet brim */
+		}
+		.skier .head::before {
+			/* helmet */
+			content: "";
+			position: absolute;
+			inset: -3px -2px 5px -2px;
+			background: #1d3557;
+			border-radius: 50% 50% 45% 45%;
+			z-index: -1;
+		}
+
+		.skier .body {
+			position: absolute;
+			top: 16px;
+			left: 50%;
+			width: 18px;
+			height: 26px;
+			margin-left: -9px;
+			background: linear-gradient(180deg, #e63946 0%, #b52836 100%);
+			border-radius: 8px 8px 5px 5px;
+		}
+		/* arms */
+		.skier .body::before,
+		.skier .body::after {
+			content: "";
+			position: absolute;
+			top: 5px;
+			width: 6px;
+			height: 18px;
+			background: #e63946;
+			border-radius: 3px;
+		}
+		.skier .body::before { left: -5px;  transform: rotate(15deg); }
+		.skier .body::after  { right: -5px; transform: rotate(-15deg); }
+
+		/* legs / knees bent — rendered as two short segments */
+		.skier .legs {
+			position: absolute;
+			top: 40px;
+			left: 50%;
+			width: 22px;
+			height: 18px;
+			margin-left: -11px;
+		}
+		.skier .legs::before,
+		.skier .legs::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			width: 7px;
+			height: 18px;
+			background: #1d3557;
+			border-radius: 3px;
+		}
+		.skier .legs::before { left: 0; }
+		.skier .legs::after  { right: 0; }
+
+		/* skis */
+		.skier .skis {
+			position: absolute;
+			top: 62px;
+			left: 50%;
+			width: 46px;
+			height: 6px;
+			margin-left: -23px;
+		}
+		.skier .skis::before,
+		.skier .skis::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			width: 46px;
+			height: 3px;
+			background: linear-gradient(90deg, #ffd166 0%, #f77f00 100%);
+			border-radius: 3px;
+			box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+		}
+		.skier .skis::before { transform: translateX(-8px) rotate(-2deg); }
+		.skier .skis::after  { transform: translateX( 8px) rotate( 2deg); top: 3px; }
+
+		/* poles */
+		.skier .pole {
+			position: absolute;
+			top: 22px;
+			width: 2px;
+			height: 34px;
+			background: #333;
+			transform-origin: top center;
+		}
+		.skier .pole.left  { left: 6px;  transform: rotate(20deg); }
+		.skier .pole.right { right: 6px; transform: rotate(-20deg); }
+		.skier .pole::after {
+			content: "";
+			position: absolute;
+			bottom: -3px;
+			left: -2px;
+			width: 6px;
+			height: 3px;
+			background: #888;
+			border-radius: 50%;
+		}
+
+		/* subtle drop shadow under skier */
+		.traveler::after {
+			content: "";
+			position: absolute;
+			bottom: 4px;
+			left: 50%;
+			width: 48px;
+			height: 8px;
+			margin-left: -24px;
+			background: radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, transparent 70%);
+			z-index: -1;
+		}
+
+		/* ---------- Per-skier positioning & timing ---------- */
+		.traveler.s1 { animation-duration: 11s; animation-delay: 0s; }
+		.traveler.s2 { animation-duration: 15s; animation-delay: -4s; }
+		.traveler.s3 { animation-duration: 13s; animation-delay: -7s; }
+		.traveler.s4 { animation-duration: 17s; animation-delay: -2s; }
+
+		/* Spread starting columns using left positioning */
+		.traveler.s1 { left: 30%; }
+		.traveler.s2 { left: 50%; }
+		.traveler.s3 { left: 70%; }
+		.traveler.s4 { left: 45%; }
+
+		/* Snow spray tail */
+		.spray {
+			position: absolute;
+			top: 66px;
+			left: 50%;
+			width: 30px;
+			height: 12px;
+			margin-left: -15px;
+			background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%);
+			filter: blur(1px);
+			animation: spray-pulse 0.4s ease-in-out infinite alternate;
+		}
+		@keyframes spray-pulse {
+			from { transform: scaleX(0.7); opacity: 0.6; }
+			to   { transform: scaleX(1.2); opacity: 1; }
+		}
+	</style>
 </head>
 <body>
-	<div class="containter">
-		<h1>remoraschle.github.io</h1>
+	<div class="slope">
+		<h1 class="title">remoraschle.github.io</h1>
+
+		<!-- Decorative trees and flags that scroll past -->
+		<div class="trees left">
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+		</div>
+		<div class="trees right">
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+			<div class="tree"></div>
+		</div>
+		<div class="flags">
+			<div class="flag"></div>
+			<div class="flag blue"></div>
+			<div class="flag"></div>
+			<div class="flag blue"></div>
+			<div class="flag"></div>
+			<div class="flag blue"></div>
+		</div>
+
+		<!-- Skier 1: short turns -->
+		<div class="traveler s1">
+			<div class="turn short-turns">
+				<div class="skier">
+					<div class="head"></div>
+					<div class="body"></div>
+					<div class="legs"></div>
+					<div class="pole left"></div>
+					<div class="pole right"></div>
+					<div class="skis"></div>
+					<div class="spray"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Skier 2: carving -->
+		<div class="traveler s2">
+			<div class="turn carving">
+				<div class="skier">
+					<div class="head"></div>
+					<div class="body"></div>
+					<div class="legs"></div>
+					<div class="pole left"></div>
+					<div class="pole right"></div>
+					<div class="skis"></div>
+					<div class="spray"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Skier 3: medium GS-style turns -->
+		<div class="traveler s3">
+			<div class="turn medium-turns">
+				<div class="skier">
+					<div class="head"></div>
+					<div class="body"></div>
+					<div class="legs"></div>
+					<div class="pole left"></div>
+					<div class="pole right"></div>
+					<div class="skis"></div>
+					<div class="spray"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Skier 4: short turns (staggered) -->
+		<div class="traveler s4">
+			<div class="turn short-turns">
+				<div class="skier">
+					<div class="head"></div>
+					<div class="body"></div>
+					<div class="legs"></div>
+					<div class="pole left"></div>
+					<div class="pole right"></div>
+					<div class="skis"></div>
+					<div class="spray"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="legend">short turns &bull; giant slalom &bull; carving</div>
 	</div>
 </body>
-<script   src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </html>
