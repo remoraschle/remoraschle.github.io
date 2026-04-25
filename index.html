@@ -343,6 +343,43 @@
 			100% { transform: translateY(100%) translateX(2px); }
 		}
 
+		/* Chairlift in the distance */
+		.chairlift {
+			position: absolute;
+			top: 18%;
+			right: 4%;
+			width: 38%;
+			height: 38%;
+			pointer-events: none;
+			z-index: 4;
+			opacity: 0.78;
+			filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+		}
+
+		.chair-swing {
+			animation: chair-sway 3.6s ease-in-out infinite alternate;
+			transform-origin: 0 0;
+		}
+
+		.chair-swing.s-2 { animation-duration: 4.4s; animation-delay: -1.2s; }
+		.chair-swing.s-3 { animation-duration: 3.1s; animation-delay: -2.4s; }
+		.chair-swing.s-4 { animation-duration: 4.8s; animation-delay: -0.6s; }
+		.chair-swing.s-5 { animation-duration: 3.7s; animation-delay: -3.0s; }
+
+		@keyframes chair-sway {
+			from { transform: rotate(-3deg); }
+			to   { transform: rotate(3deg); }
+		}
+
+		/* Static ski tracks decorating the slope (prior runs) */
+		.ski-tracks {
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			z-index: 2;
+			opacity: 0.55;
+		}
+
 		/* Slalom flags */
 		.flags {
 			position: absolute;
@@ -352,28 +389,65 @@
 			z-index: 5;
 		}
 
-		.flag {
+		/* Slalom gate: two poles with a flag panel between them. Red/blue alternate. */
+		.gate {
 			position: absolute;
-			width: 3.5px;
-			height: 58px;
-			background: linear-gradient(180deg, #7a5a3a 0%, #5a3a2a 100%);
-			filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+			width: 42px;
+			height: 64px;
+			--gate-color: #e63946;
+			--gate-light: #ff5560;
+			--gate-deep: #b51f30;
+			filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.22));
 		}
 
-		.flag::after {
+		.gate.blue {
+			--gate-color: #1d6fd1;
+			--gate-light: #3d9cff;
+			--gate-deep: #114a91;
+		}
+
+		/* Two gate poles */
+		.gate::before,
+		.gate::after {
 			content: "";
 			position: absolute;
-			top: 4px;
-			left: 3.5px;
-			width: 28px;
-			height: 18px;
-			background: linear-gradient(135deg, #ff4444 0%, #e63946 100%);
-			clip-path: polygon(0 0, 100% 5%, 95% 100%, 0 70%);
-			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+			top: 0;
+			width: 3px;
+			height: 100%;
+			border-radius: 1.5px;
+			background: linear-gradient(180deg,
+				#ffffff 0%,
+				var(--gate-light) 7%,
+				var(--gate-color) 22%,
+				var(--gate-deep) 100%);
+			box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.18);
 		}
 
-		.flag.blue::after {
-			background: linear-gradient(135deg, #3d9cff 0%, #1d6fd1 100%);
+		.gate::before { left: 1px; }
+		.gate::after { right: 1px; }
+
+		/* Flag panel hanging between the two poles */
+		.gate-panel {
+			position: absolute;
+			top: 6px;
+			left: 4px;
+			right: 4px;
+			height: 22px;
+			background: linear-gradient(135deg,
+				var(--gate-light) 0%,
+				var(--gate-color) 60%,
+				var(--gate-deep) 100%);
+			clip-path: polygon(0 0, 100% 6%, 100% 78%, 0 92%);
+			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+			animation: flag-flutter 2.4s ease-in-out infinite alternate;
+			transform-origin: 0 50%;
+		}
+
+		.gate.blue .gate-panel { animation-duration: 3.1s; }
+
+		@keyframes flag-flutter {
+			from { transform: skewY(-1.5deg) scaleX(1); }
+			to   { transform: skewY(2deg) scaleX(0.97); }
 		}
 
 		/* Title and legend */
@@ -420,24 +494,30 @@
 			height: 132px;
 			margin-left: -44px;
 			z-index: 30;
-			animation: descend linear infinite;
+			animation: descend cubic-bezier(0.32, 0.45, 0.42, 0.96) infinite;
 			will-change: transform;
-			filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+			filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.32)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
 		}
 
 		@keyframes descend {
 			0% {
-				bottom: 115%;
+				bottom: 100%;
 				opacity: 0;
-				transform: translateX(0) scale(0.28);
+				transform: translateX(0) scale(0.4);
 			}
-			4% {
+			3% {
+				opacity: 0.3;
+			}
+			12% {
+				opacity: 1;
+			}
+			90% {
 				opacity: 1;
 			}
 			100% {
-				bottom: -15%;
+				bottom: -10%;
 				opacity: 0;
-				transform: translateX(0) scale(1.3);
+				transform: translateX(0) scale(1.05);
 			}
 		}
 
@@ -448,6 +528,10 @@
 			--jacket-dark: #c83a46;
 			--accent: #ffb3b8;
 			--helmet: #1a1410;
+			--ski-color: #ffd166;
+			--ski-edge: #ffaa33;
+			--pant-color: #1d3557;
+			--pant-dark: #14263e;
 		}
 
 		.traveler.s2 {
@@ -458,6 +542,10 @@
 			--jacket-dark: #ffb84d;
 			--accent: #ffe4c4;
 			--helmet: #2a1f10;
+			--ski-color: #fff5d6;
+			--ski-edge: #d4b98a;
+			--pant-color: #2a1f3a;
+			--pant-dark: #1a1228;
 		}
 
 		.traveler.s3 {
@@ -468,6 +556,10 @@
 			--jacket-dark: #1d6aa0;
 			--accent: #8ed4ff;
 			--helmet: #0a1620;
+			--ski-color: #7ed0ff;
+			--ski-edge: #3a8aba;
+			--pant-color: #0a2540;
+			--pant-dark: #051628;
 		}
 
 		.traveler.s4 {
@@ -475,9 +567,13 @@
 			animation-delay: -1s;
 			left: 46%;
 			--jacket-light: #e8ecff;
-			--jacket-dark: #d4d8ff;
+			--jacket-dark: #b8bcd8;
 			--accent: #f0f4ff;
 			--helmet: #0f1420;
+			--ski-color: #e8ecff;
+			--ski-edge: #b0b4d0;
+			--pant-color: #1a1f3a;
+			--pant-dark: #0e1226;
 		}
 
 		/* Turn patterns */
@@ -489,39 +585,105 @@
 			transform-origin: 50% 65%;
 		}
 
+		/* Turn patterns - applied to the whole traveler, so gates appear after skier's path */
 		.turn.short-turns {
-			animation: short-turns 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: short-turns 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
+		/* Per-skier phase shifts so turns don't all peak in unison.
+		   Delay applies to every per-cycle animation inside the skier so
+		   absorb / scarf / head / arms / spray stay coordinated. */
+		.s1 .turn,
+		.s1 .absorb,
+		.s1 .scarf,
+		.s1 .head,
+		.s1 .arm-front,
+		.s1 .arm-back,
+		.s1 .spray,
+		.s1 .goggle-shine { animation-delay: -0.3s; }
+		.s1 .skier-svg {
+			transform: perspective(900px) rotateZ(-15deg) rotateX(3deg);
+			transform-origin: 50% 95%;
+		}
+		.s1 .head { transform: rotate(-10deg); transform-origin: 0 30px; }
+		.s1 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
+
+		.s2 .turn,
+		.s2 .absorb,
+		.s2 .scarf,
+		.s2 .head,
+		.s2 .arm-front,
+		.s2 .arm-back,
+		.s2 .spray,
+		.s2 .goggle-shine { animation-delay: -1.7s; }
+		.s2 .skier-svg {
+			transform: perspective(900px) rotateZ(0deg) rotateY(4deg) rotateX(2deg);
+			transform-origin: 50% 95%;
+		}
+		.s2 .head { transform: rotate(0deg); transform-origin: 0 30px; }
+		.s2 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
+
+		.s3 .turn,
+		.s3 .absorb,
+		.s3 .scarf,
+		.s3 .head,
+		.s3 .arm-front,
+		.s3 .arm-back,
+		.s3 .spray,
+		.s3 .goggle-shine { animation-delay: -0.9s; }
+		.s3 .skier-svg {
+			transform: perspective(900px) rotateZ(15deg) rotateX(-3deg);
+			transform-origin: 50% 95%;
+		}
+		.s3 .head { transform: rotate(10deg); transform-origin: 0 30px; }
+		.s3 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
+
+		.s4 .turn,
+		.s4 .absorb,
+		.s4 .scarf,
+		.s4 .head,
+		.s4 .arm-front,
+		.s4 .arm-back,
+		.s4 .spray,
+		.s4 .goggle-shine { animation-delay: -2.1s; }
+
 		@keyframes short-turns {
-			0%   { transform: translateX(-36px) rotate(-18deg); }
+			0%   { transform: translateX(-22px) rotate(-8deg); }
+			12%  { transform: translateX(-11px) rotate(-4deg); }
 			25%  { transform: translateX(0px)   rotate(0deg); }
-			50%  { transform: translateX(36px)  rotate(18deg); }
+			38%  { transform: translateX(11px)  rotate(4deg); }
+			50%  { transform: translateX(22px)  rotate(8deg); }
+			62%  { transform: translateX(11px)  rotate(4deg); }
 			75%  { transform: translateX(0px)   rotate(0deg); }
-			100% { transform: translateX(-36px) rotate(-18deg); }
+			88%  { transform: translateX(-11px) rotate(-4deg); }
+			100% { transform: translateX(-22px) rotate(-8deg); }
 		}
 
 		.turn.carving {
-			animation: carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		@keyframes carving {
-			0%   { transform: translateX(-22vw) rotate(-30deg); }
-			50%  { transform: translateX(22vw)  rotate(30deg); }
-			100% { transform: translateX(-22vw) rotate(-30deg); }
+			0%   { transform: translateX(-150px) rotate(-13deg); }
+			25%  { transform: translateX(-75px)  rotate(-6.5deg); }
+			50%  { transform: translateX(150px)  rotate(13deg); }
+			75%  { transform: translateX(75px)   rotate(6.5deg); }
+			100% { transform: translateX(-150px) rotate(-13deg); }
 		}
 
 		.turn.medium-turns {
-			animation: medium-turns 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: medium-turns 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes medium-turns {
-			0%   { transform: translateX(-13vw) rotate(-24deg); }
-			50%  { transform: translateX(13vw)  rotate(24deg); }
-			100% { transform: translateX(-13vw) rotate(-24deg); }
+			0%   { transform: translateX(-85px) rotate(-10deg); }
+			25%  { transform: translateX(-42px) rotate(-5deg); }
+			50%  { transform: translateX(85px)  rotate(10deg); }
+			75%  { transform: translateX(42px)  rotate(5deg); }
+			100% { transform: translateX(-85px) rotate(-10deg); }
 		}
 
-		/* Compression/extension wrapper */
+		/* Compression/extension in the skier's body during turns */
 		.absorb {
 			position: relative;
 			width: 100%;
@@ -531,30 +693,39 @@
 		}
 
 		.short-turns .absorb {
-			animation: absorb-short 0.6s ease-in-out infinite alternate;
+			animation: absorb-short 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
 		.carving .absorb {
-			animation: absorb-carving 2.2s ease-in-out infinite alternate;
+			animation: absorb-carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		.medium-turns .absorb {
-			animation: absorb-medium 1.2s ease-in-out infinite alternate;
+			animation: absorb-medium 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes absorb-short {
-			from { transform: scaleY(1) scaleX(1.02) translateY(0); }
-			to { transform: scaleY(0.85) scaleX(0.98) translateY(4px); }
+			0%   { transform: scaleY(1) scaleX(1.01) translateY(0); }
+			25%  { transform: scaleY(0.96) scaleX(1.0) translateY(1px); }
+			50%  { transform: scaleY(0.88) scaleX(0.98) translateY(2.5px); }
+			75%  { transform: scaleY(0.96) scaleX(1.0) translateY(1px); }
+			100% { transform: scaleY(1) scaleX(1.01) translateY(0); }
 		}
 
 		@keyframes absorb-medium {
-			from { transform: scaleY(1) scaleX(1.01) translateY(0); }
-			to { transform: scaleY(0.86) scaleX(0.99) translateY(3.5px); }
+			0%   { transform: scaleY(1) scaleX(1.01) translateY(0); }
+			25%  { transform: scaleY(0.97) scaleX(1.0) translateY(0.8px); }
+			50%  { transform: scaleY(0.90) scaleX(0.98) translateY(2px); }
+			75%  { transform: scaleY(0.97) scaleX(1.0) translateY(0.8px); }
+			100% { transform: scaleY(1) scaleX(1.01) translateY(0); }
 		}
 
 		@keyframes absorb-carving {
-			from { transform: scaleY(1) scaleX(1.02) translateY(0); }
-			to { transform: scaleY(0.84) scaleX(0.98) translateY(5px); }
+			0%   { transform: scaleY(1) scaleX(1.01) translateY(0); }
+			25%  { transform: scaleY(0.96) scaleX(1.0) translateY(1.2px); }
+			50%  { transform: scaleY(0.85) scaleX(0.97) translateY(3px); }
+			75%  { transform: scaleY(0.96) scaleX(1.0) translateY(1.2px); }
+			100% { transform: scaleY(1) scaleX(1.01) translateY(0); }
 		}
 
 		/* Skier SVG */
@@ -575,36 +746,45 @@
 		}
 
 		.short-turns .arm-front {
-			animation: pole-plant-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: pole-plant-short 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
 		.carving .arm-front {
-			animation: pole-plant-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: pole-plant-carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		.medium-turns .arm-front {
-			animation: pole-plant-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: pole-plant-medium 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes pole-plant-short {
-			0%, 55% { transform: rotate(20deg); }
-			65% { transform: rotate(60deg); }
-			80% { transform: rotate(20deg); }
-			100% { transform: rotate(20deg); }
+			0%   { transform: rotate(0deg); }
+			30%  { transform: rotate(0deg); }
+			40%  { transform: rotate(2deg); }
+			48%  { transform: rotate(4deg); }
+			56%  { transform: rotate(2deg); }
+			68%  { transform: rotate(0deg); }
+			100% { transform: rotate(0deg); }
 		}
 
 		@keyframes pole-plant-medium {
-			0%, 55% { transform: rotate(20deg); }
-			65% { transform: rotate(54deg); }
-			80% { transform: rotate(20deg); }
-			100% { transform: rotate(20deg); }
+			0%   { transform: rotate(0deg); }
+			35%  { transform: rotate(0deg); }
+			42%  { transform: rotate(1.5deg); }
+			48%  { transform: rotate(3deg); }
+			54%  { transform: rotate(1.5deg); }
+			65%  { transform: rotate(0deg); }
+			100% { transform: rotate(0deg); }
 		}
 
 		@keyframes pole-plant-carving {
-			0%, 55% { transform: rotate(20deg); }
-			65% { transform: rotate(48deg); }
-			80% { transform: rotate(20deg); }
-			100% { transform: rotate(20deg); }
+			0%   { transform: rotate(0deg); }
+			38%  { transform: rotate(0deg); }
+			45%  { transform: rotate(1deg); }
+			50%  { transform: rotate(2deg); }
+			55%  { transform: rotate(1deg); }
+			62%  { transform: rotate(0deg); }
+			100% { transform: rotate(0deg); }
 		}
 
 		.arm-back {
@@ -613,48 +793,76 @@
 		}
 
 		.short-turns .arm-back {
-			animation: arm-back-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite reverse;
+			animation: arm-back-short 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
 		.carving .arm-back {
-			animation: arm-back-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite reverse;
+			animation: arm-back-carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		.medium-turns .arm-back {
-			animation: arm-back-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite reverse;
+			animation: arm-back-medium 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes arm-back-short {
-			0%, 55% { transform: rotate(-20deg); }
-			65% { transform: rotate(-60deg); }
-			80% { transform: rotate(-20deg); }
-			100% { transform: rotate(-20deg); }
+			0%   { transform: rotate(-2deg); }
+			6%   { transform: rotate(-4deg); }
+			14%  { transform: rotate(-2deg); }
+			25%  { transform: rotate(0deg); }
+			85%  { transform: rotate(0deg); }
+			92%  { transform: rotate(-2deg); }
+			98%  { transform: rotate(-4deg); }
+			100% { transform: rotate(-2deg); }
 		}
 
 		@keyframes arm-back-medium {
-			0%, 55% { transform: rotate(-20deg); }
-			65% { transform: rotate(-54deg); }
-			80% { transform: rotate(-20deg); }
-			100% { transform: rotate(-20deg); }
+			0%   { transform: rotate(-1.5deg); }
+			5%   { transform: rotate(-3deg); }
+			12%  { transform: rotate(-1.5deg); }
+			22%  { transform: rotate(0deg); }
+			88%  { transform: rotate(0deg); }
+			94%  { transform: rotate(-1.5deg); }
+			99%  { transform: rotate(-3deg); }
+			100% { transform: rotate(-1.5deg); }
 		}
 
 		@keyframes arm-back-carving {
-			0%, 55% { transform: rotate(-20deg); }
-			65% { transform: rotate(-48deg); }
-			80% { transform: rotate(-20deg); }
-			100% { transform: rotate(-20deg); }
+			0%   { transform: rotate(-1deg); }
+			5%   { transform: rotate(-2deg); }
+			10%  { transform: rotate(-1deg); }
+			18%  { transform: rotate(0deg); }
+			88%  { transform: rotate(0deg); }
+			95%  { transform: rotate(-1deg); }
+			99%  { transform: rotate(-2deg); }
+			100% { transform: rotate(-1deg); }
 		}
 
 		/* Scarf flutter with wind simulation */
 		.scarf {
 			transform-origin: 48% 38%;
 			will-change: transform;
-			animation: scarf-flutter 0.9s ease-in-out infinite alternate;
+		}
+
+		.short-turns .scarf {
+			animation: scarf-flutter 1.2s ease-in-out infinite;
+		}
+
+		.carving .scarf {
+			animation: scarf-flutter 4.4s ease-in-out infinite;
+		}
+
+		.medium-turns .scarf {
+			animation: scarf-flutter 2.4s ease-in-out infinite;
 		}
 
 		@keyframes scarf-flutter {
-			from { transform: rotate(0deg) translateX(0) translateY(-1px); }
-			to { transform: rotate(-16deg) translateX(3px) translateY(2px); }
+			0%   { transform: rotate(0deg) translateX(0) translateY(-1px); }
+			20%  { transform: rotate(-4deg) translateX(1px) translateY(0px); }
+			40%  { transform: rotate(-10deg) translateX(2px) translateY(1px); }
+			50%  { transform: rotate(-12deg) translateX(2.2px) translateY(1.2px); }
+			60%  { transform: rotate(-8deg) translateX(1.8px) translateY(0.8px); }
+			80%  { transform: rotate(-2deg) translateX(0.5px) translateY(-0.5px); }
+			100% { transform: rotate(0deg) translateX(0) translateY(-1px); }
 		}
 
 		/* Snow spray */
@@ -663,21 +871,25 @@
 		}
 
 		.short-turns .spray {
-			animation: spray-pulse 0.6s ease-in-out infinite;
-		}
-
-		.carving .spray {
-			animation: spray-pulse 2.2s ease-in-out infinite;
-		}
-
-		.medium-turns .spray {
 			animation: spray-pulse 1.2s ease-in-out infinite;
 		}
 
+		.carving .spray {
+			animation: spray-pulse 4.4s ease-in-out infinite;
+		}
+
+		.medium-turns .spray {
+			animation: spray-pulse 2.4s ease-in-out infinite;
+		}
+
 		@keyframes spray-pulse {
-			0%, 25% { transform: scaleX(0.9) scaleY(1.1); opacity: 0.7; }
-			50% { transform: scaleX(1.4) scaleY(0.85); opacity: 1; }
-			100% { transform: scaleX(0.7) scaleY(1); opacity: 0.6; }
+			0%   { transform: scaleX(0.95) scaleY(1.05); opacity: 0.5; }
+			20%  { transform: scaleX(1.0) scaleY(0.95); opacity: 0.65; }
+			40%  { transform: scaleX(1.2) scaleY(0.85); opacity: 0.85; }
+			50%  { transform: scaleX(1.25) scaleY(0.82); opacity: 0.9; }
+			60%  { transform: scaleX(1.15) scaleY(0.88); opacity: 0.8; }
+			80%  { transform: scaleX(1.0) scaleY(1.0); opacity: 0.6; }
+			100% { transform: scaleX(0.95) scaleY(1.05); opacity: 0.45; }
 		}
 
 		/* Head tilt and look direction */
@@ -686,21 +898,27 @@
 		}
 
 		.short-turns .head {
-			animation: head-tilt 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: head-tilt 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
 		.carving .head {
-			animation: head-tilt 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: head-tilt 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		.medium-turns .head {
-			animation: head-tilt 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: head-tilt 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes head-tilt {
-			0%, 50%, 100% { transform: rotate(0deg) translateY(0); }
-			25% { transform: rotate(10deg) translateY(-1px); }
-			75% { transform: rotate(-10deg) translateY(-1px); }
+			0%   { transform: rotate(0deg) translateY(0); }
+			12%  { transform: rotate(3deg) translateY(-0.4px); }
+			25%  { transform: rotate(6deg) translateY(-0.8px); }
+			37%  { transform: rotate(3deg) translateY(-0.4px); }
+			50%  { transform: rotate(0deg) translateY(0); }
+			62%  { transform: rotate(-3deg) translateY(-0.4px); }
+			75%  { transform: rotate(-6deg) translateY(-0.8px); }
+			87%  { transform: rotate(-3deg) translateY(-0.4px); }
+			100% { transform: rotate(0deg) translateY(0); }
 		}
 
 		/* Goggle glint */
@@ -721,8 +939,8 @@
 		}
 
 		@keyframes glint {
-			0%, 30%, 70%, 100% { opacity: 0.4; }
-			50% { opacity: 1; }
+			0%, 15%, 85%, 100% { opacity: 0.3; }
+			35%, 50%, 65% { opacity: 0.75; }
 		}
 
 	</style>
@@ -784,113 +1002,262 @@
 			<path fill="url(#snowNear)" opacity="0.42" d="M100,70 L260,115 L180,92 L100,70 M380,35 L540,105 L460,70 L380,35 M680,70 L840,135 L760,102 L680,70 M960,85 L1120,150 L1040,117 L960,85"/>
 		</svg>
 
-		<!-- Pine forest silhouette -->
-		<svg class="forest" viewBox="0 0 1600 300" preserveAspectRatio="none">
+		<!-- Chairlift in the distance, gliding above the trees -->
+		<svg class="chairlift" viewBox="0 0 480 220" preserveAspectRatio="xMaxYMax meet">
+			<defs>
+				<linearGradient id="towerGrad" x1="0" x2="0" y1="0" y2="1">
+					<stop offset="0%" stop-color="#243a55"/>
+					<stop offset="100%" stop-color="#0a141f"/>
+				</linearGradient>
+			</defs>
+
+			<!-- Cable arc descending from upper-left to lower-right -->
+			<path d="M0,28 Q240,56 480,140" stroke="#1a2230" stroke-width="0.9" fill="none" opacity="0.85"/>
+
+			<!-- Tower 1 (back) -->
+			<g class="tower">
+				<line x1="120" y1="220" x2="120" y2="42" stroke="url(#towerGrad)" stroke-width="2"/>
+				<line x1="100" y1="44" x2="140" y2="44" stroke="url(#towerGrad)" stroke-width="1.6"/>
+				<circle cx="100" cy="44" r="1.4" fill="#243a55"/>
+				<circle cx="140" cy="44" r="1.4" fill="#243a55"/>
+				<polygon points="118,42 122,42 120,38" fill="#243a55"/>
+			</g>
+
+			<!-- Tower 2 (front) -->
+			<g class="tower">
+				<line x1="340" y1="220" x2="340" y2="100" stroke="url(#towerGrad)" stroke-width="2.2"/>
+				<line x1="318" y1="102" x2="362" y2="102" stroke="url(#towerGrad)" stroke-width="1.8"/>
+				<circle cx="318" cy="102" r="1.6" fill="#243a55"/>
+				<circle cx="362" cy="102" r="1.6" fill="#243a55"/>
+				<polygon points="338,100 342,100 340,96" fill="#243a55"/>
+			</g>
+
+			<!-- Chairs hanging at fixed points along the cable, each gently swaying -->
+			<g transform="translate(60, 36)"><g class="chair-swing">
+				<line x1="0" y1="0" x2="0" y2="9" stroke="#1a2230" stroke-width="0.8"/>
+				<rect x="-5" y="9" width="10" height="2.2" fill="#3a2a1a" rx="0.4"/>
+				<rect x="-5" y="11.2" width="10" height="1.8" fill="#241510" rx="0.3"/>
+				<line x1="-5" y1="9" x2="-5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+				<line x1="5" y1="9" x2="5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+			</g></g>
+			<g transform="translate(180, 56)"><g class="chair-swing s-2">
+				<line x1="0" y1="0" x2="0" y2="9" stroke="#1a2230" stroke-width="0.8"/>
+				<rect x="-5" y="9" width="10" height="2.2" fill="#3a2a1a" rx="0.4"/>
+				<rect x="-5" y="11.2" width="10" height="1.8" fill="#241510" rx="0.3"/>
+				<line x1="-5" y1="9" x2="-5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+				<line x1="5" y1="9" x2="5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+			</g></g>
+			<g transform="translate(280, 80)"><g class="chair-swing s-3">
+				<line x1="0" y1="0" x2="0" y2="9" stroke="#1a2230" stroke-width="0.8"/>
+				<rect x="-5" y="9" width="10" height="2.2" fill="#3a2a1a" rx="0.4"/>
+				<rect x="-5" y="11.2" width="10" height="1.8" fill="#241510" rx="0.3"/>
+				<line x1="-5" y1="9" x2="-5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+				<line x1="5" y1="9" x2="5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+			</g></g>
+			<g transform="translate(390, 112)"><g class="chair-swing s-4">
+				<line x1="0" y1="0" x2="0" y2="9" stroke="#1a2230" stroke-width="0.8"/>
+				<rect x="-5" y="9" width="10" height="2.2" fill="#3a2a1a" rx="0.4"/>
+				<rect x="-5" y="11.2" width="10" height="1.8" fill="#241510" rx="0.3"/>
+				<line x1="-5" y1="9" x2="-5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+				<line x1="5" y1="9" x2="5" y2="14" stroke="#1a2230" stroke-width="0.6"/>
+			</g></g>
+		</svg>
+
+		<!-- Pine forest silhouette: trees populated by JS for natural randomness -->
+		<svg class="forest" viewBox="0 0 1600 100" preserveAspectRatio="none">
 			<defs>
 				<linearGradient id="treeFade" x1="0" x2="0" y1="0" y2="1">
 					<stop offset="0%" stop-color="#1a3a5a"/>
 					<stop offset="100%" stop-color="#050a15"/>
 				</linearGradient>
 			</defs>
-			<path fill="url(#treeFade)" d="M0,300 L0,95 L12,75 L8,95 L22,60 L18,95 L36,65 L32,95 L50,55 L46,95 L68,70 L64,95 L82,50 L78,95 L96,70 L92,95 L110,55 L106,95 L128,65 L124,95 L146,50 L142,95 L160,70 L156,95 L176,55 L172,95 L194,65 L190,95 L212,50 L208,95 L230,65 L226,95 L248,55 L244,95 L266,65 L262,95 L284,50 L280,95 L302,65 L298,95 L320,55 L316,95 L338,70 L334,95 L356,50 L352,95 L374,65 L370,95 L392,55 L388,95 L410,70 L406,95 L428,50 L424,95 L446,65 L442,95 L464,55 L460,95 L482,70 L478,95 L500,50 L496,95 L518,65 L514,95 L536,55 L532,95 L554,70 L550,95 L572,50 L568,95 L590,65 L586,95 L608,55 L604,95 L626,70 L622,95 L644,50 L640,95 L662,65 L658,95 L680,55 L676,95 L698,70 L694,95 L716,50 L712,95 L734,65 L730,95 L752,55 L748,95 L770,70 L766,95 L788,50 L784,95 L806,65 L802,95 L824,55 L820,95 L842,70 L838,95 L860,50 L856,95 L878,65 L874,95 L896,55 L892,95 L914,70 L910,95 L932,50 L928,95 L950,65 L946,95 L968,55 L964,95 L986,70 L982,95 L1004,50 L1000,95 L1022,65 L1018,95 L1040,55 L1036,95 L1058,70 L1054,95 L1076,50 L1072,95 L1094,65 L1090,95 L1112,55 L1108,95 L1130,70 L1126,95 L1148,50 L1144,95 L1166,65 L1162,95 L1184,55 L1180,95 L1202,70 L1198,95 L1220,50 L1216,95 L1238,65 L1234,95 L1256,55 L1252,95 L1274,70 L1270,95 L1292,50 L1288,95 L1310,65 L1306,95 L1328,55 L1324,95 L1346,70 L1342,95 L1364,50 L1360,95 L1382,65 L1378,95 L1400,55 L1396,95 L1418,70 L1414,95 L1440,50 L1436,95 L1480,65 L1476,95 L1510,50 L1506,95 L1550,70 L1546,95 L1600,75 L1600,300 Z"/>
+			<rect x="0" y="92" width="1600" height="8" fill="url(#treeFade)"/>
+			<g id="forest-trees" fill="url(#treeFade)"></g>
 		</svg>
 
 		<!-- Snow and slope -->
 		<div class="slope">
+			<!-- Static ski tracks left by prior runs: subtle paired curves down the slope -->
+			<svg class="ski-tracks" viewBox="0 0 1000 600" preserveAspectRatio="none">
+				<defs>
+					<linearGradient id="trackFade" x1="0" x2="0" y1="0" y2="1">
+						<stop offset="0%" stop-color="rgba(120, 150, 190, 0)"/>
+						<stop offset="35%" stop-color="rgba(120, 150, 190, 0.45)"/>
+						<stop offset="100%" stop-color="rgba(80, 120, 170, 0.7)"/>
+					</linearGradient>
+				</defs>
+				<g stroke="url(#trackFade)" stroke-width="1.6" fill="none" stroke-linecap="round">
+					<!-- Track pair 1: gentle S down the left -->
+					<path d="M 220,40 Q 180,160 240,260 Q 300,370 220,500 Q 180,560 200,600"/>
+					<path d="M 234,40 Q 194,160 254,260 Q 314,370 234,500 Q 194,560 214,600"/>
+					<!-- Track pair 2: wider sweep right side -->
+					<path d="M 660,30 Q 720,140 640,250 Q 560,360 700,470 Q 760,540 720,600"/>
+					<path d="M 674,30 Q 734,140 654,250 Q 574,360 714,470 Q 774,540 734,600"/>
+					<!-- Track pair 3: tight short turns center -->
+					<path d="M 460,60 Q 430,120 480,180 Q 530,240 460,300 Q 410,360 480,420 Q 540,480 470,560"/>
+					<path d="M 472,60 Q 442,120 492,180 Q 542,240 472,300 Q 422,360 492,420 Q 552,480 482,560"/>
+					<!-- Track pair 4: long carving arc -->
+					<path d="M 880,40 Q 820,200 900,360 Q 970,500 880,600"/>
+					<path d="M 892,40 Q 832,200 912,360 Q 982,500 892,600"/>
+				</g>
+			</svg>
+
 			<div class="flags">
-				<div class="flag" style="left: 22%; top: 6%;"></div>
-				<div class="flag blue" style="left: 58%; top: 16%;"></div>
-				<div class="flag" style="left: 12%; top: 26%;"></div>
-				<div class="flag blue" style="left: 72%; top: 36%;"></div>
-				<div class="flag" style="left: 28%; top: 46%;"></div>
-				<div class="flag blue" style="left: 62%; top: 56%;"></div>
-				<div class="flag" style="left: 18%; top: 66%;"></div>
-				<div class="flag blue" style="left: 78%; top: 76%;"></div>
+				<div class="gate"      style="left: 19%; top: 4%;  transform: scale(0.6);"><div class="gate-panel"></div></div>
+				<div class="gate blue" style="left: 63%; top: 14%; transform: scale(0.7);"><div class="gate-panel"></div></div>
+				<div class="gate"      style="left: 38%; top: 23%; transform: scale(0.78);"><div class="gate-panel"></div></div>
+				<div class="gate blue" style="left: 14%; top: 33%; transform: scale(0.85);"><div class="gate-panel"></div></div>
+				<div class="gate"      style="left: 75%; top: 44%; transform: scale(0.92);"><div class="gate-panel"></div></div>
+				<div class="gate blue" style="left: 30%; top: 56%; transform: scale(1);"><div class="gate-panel"></div></div>
+				<div class="gate"      style="left: 60%; top: 68%; transform: scale(1.1);"><div class="gate-panel"></div></div>
+				<div class="gate blue" style="left: 16%; top: 80%; transform: scale(1.2);"><div class="gate-panel"></div></div>
 			</div>
 
 			<!-- Skier 1: red jacket, short turns -->
 			<div class="traveler s1">
 				<div class="turn short-turns">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<!-- Snow spray behind -->
-							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
-
-							<!-- Skis with edge reflection -->
+						<svg class="skier-svg" viewBox="-32 0 64 128" preserveAspectRatio="xMidYMid meet" overflow="visible">
 							<defs>
 								<filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/></filter>
-								<linearGradient id="skiGrad1" x1="0" x2="0" y1="0" y2="1">
-									<stop offset="0%" stop-color="#fff5d6"/>
-									<stop offset="50%" stop-color="#ffd166"/>
-									<stop offset="100%" stop-color="#ffaa33"/>
-								</linearGradient>
 							</defs>
+
+							<!-- Snow spray -->
+							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
+
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
-								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="url(#skiGrad1)" opacity="0.95"/>
-								<ellipse cx="18" cy="106" rx="22" ry="3" fill="url(#skiGrad1)" opacity="0.95"/>
-								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
-								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,112 Q-15,113 4,112 Q4,113 -15,114 Q-30,114 -30,112 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward (down-slope) -->
+								<path d="M-30,103 Q-32,101 -30,105 Q-28,107 -22,107 L4,108 Q8,108 8,109.5 Q8,111 4,111 L-22,110 Q-28,110 -30,108 Q-32,107 -30,103 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="111" x2="6" y2="111.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="108" x2="6" y2="108.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail (front upturn) -->
+								<path d="M-30,103 Q-32,102 -31,105 L-28,106 Q-29,104 -30,103 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="100" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="100.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
+
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,113 Q12,114 32,113 Q32,114 12,115 Q-4,114 -4,113 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,109 L24,108 Q30,108 32,106 Q33,103 31,105 Q29,107 24,107 L-4,108 Q-8,108 -8,109.5 Q-8,111 -4,111 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="111.5" x2="30" y2="111" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="109" x2="28" y2="108" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail (front upturn) -->
+								<path d="M32,106 Q33,103 31,105 L28,107 Q30,107 32,106 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="102" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="102.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
 
-							<!-- Boots -->
-							<rect x="-22" y="98" width="16" height="8" fill="#3a2a1a" rx="2" filter="url(#blur)"/>
-							<rect x="6" y="101" width="16" height="8" fill="#3a2a1a" rx="2" filter="url(#blur)"/>
-
-							<!-- Back leg (shadow) -->
-							<g class="leg leg-back">
-								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+							<!-- Shins/Lower legs: aggressively bent, weight forward -->
+							<g class="shins">
+								<!-- Left shin: steep angle showing deep bend -->
+								<path d="M-10,90 L-2,90 L2,103 L-6,103 Z" fill="var(--pant-dark)"/>
+								<!-- Right shin: matching steep angle -->
+								<path d="M10,91 L18,91 L20,103 L12,103 Z" fill="var(--pant-dark)"/>
+								<!-- Shin shading for depth -->
+								<ellipse cx="-8" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
+								<ellipse cx="14" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
 							</g>
 
-							<!-- Front leg (shadow) -->
-							<g class="leg leg-front">
-								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+							<!-- Thighs: nearly horizontal in aggressive tuck -->
+							<g class="thighs">
+								<!-- Left thigh: nearly flat, very bent knee -->
+								<path d="M-14,75 L0,75 L-10,90 L-22,88 Z" fill="var(--pant-color)"/>
+								<!-- Right thigh: matching angle -->
+								<path d="M14,76 L28,76 L18,91 L4,89 Z" fill="var(--pant-color)"/>
+								<!-- Shading for volume -->
+								<ellipse cx="-12" cy="82" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
+								<ellipse cx="12" cy="83" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
 							</g>
 
-							<!-- Torso (jacket) -->
+							<!-- Hips: positioned back to show weight distribution -->
+							<g class="hips">
+								<!-- Hip/seat showing aggressive back position -->
+								<ellipse cx="0" cy="70" rx="16" ry="7" fill="var(--pant-color)"/>
+								<path d="M-16,70 L16,70 L14,72 L-14,72 Z" fill="var(--pant-dark)" opacity="0.4"/>
+							</g>
+
+							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
-								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
-								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
-								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.4" rx="1"/>
+								<!-- Main torso with forward lean -->
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
+									fill="var(--jacket-light)"/>
+								<!-- Back/shoulder shading -->
+								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
+								<!-- Chest definition -->
+								<path d="M8,45 Q10,50 10,60 L10,68 Q8,70 8,60 Q8,50 8,45 Z" fill="var(--jacket-dark)" opacity="0.3"/>
+								<!-- Bib -->
+								<rect x="-8" y="50" width="16" height="10" fill="var(--accent)" opacity="0.65" rx="1"/>
+								<text x="0" y="58" font-size="5.5" fill="var(--jacket-dark)" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" opacity="0.75">1</text>
+								<!-- Front zip -->
+								<line x1="0" y1="40" x2="0" y2="66" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
 							</g>
 
-							<!-- Back arm + pole -->
+							<!-- Shoulders: pulled forward in tuck position -->
+							<g class="shoulders">
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+							</g>
+
+							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
-								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-20" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-20" cy="106" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
 
-							<!-- Front arm + pole -->
+							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
-								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="20" y2="107" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="20" cy="107" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
 
-							<!-- Head and helmet -->
+							<!-- Head: low, forward-focused in tuck -->
 							<g class="head">
-								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
-								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
-								<!-- Goggles -->
-								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
-								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<!-- Face -->
-								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
-								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<!-- Helmet edge -->
-								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
+								<!-- Helmet in forward tuck position -->
+								<path d="M-7,22 Q-9,16 0,14 Q8,14 10,18 Q11,22 10,26 Q10,29 8,30 L-8,30 Q-9,29 -8,26 Z" fill="var(--helmet)"/>
+								<!-- Side panels -->
+								<circle cx="-8" cy="22" r="1.1" fill="var(--helmet)"/>
+								<circle cx="8" cy="23" r="1.1" fill="var(--helmet)"/>
+								<!-- Face area: forward-looking -->
+								<path d="M-5,27 Q0,29 5,27" fill="#e8c8a0"/>
+								<!-- Goggles: wraparound, forward-facing -->
+								<path d="M-8,20 L8,20 L7,24 L-7,24 Z" fill="#1a1a1a"/>
+								<ellipse cx="-3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
+								<ellipse cx="3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
 							</g>
 
-							<!-- Scarf -->
-							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+							<!-- Scarf: wind streamer behind neck in tuck -->
+							<path class="scarf" d="M-3,32 Q-7,38 -10,48" stroke="var(--jacket-dark)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
 						</svg>
 					</div>
 				</div>
@@ -900,55 +1267,147 @@
 			<div class="traveler s2">
 				<div class="turn carving">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
+						<svg class="skier-svg" viewBox="-32 0 64 128" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<defs>
+								<filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/></filter>
+							</defs>
+
+							<!-- Snow spray -->
+							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
+
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
-								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#fff5d6" opacity="0.95"/>
-								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#fff5d6" opacity="0.95"/>
-								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
-								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,107 Q-15,108 4,107 Q4,108 -15,109 Q-30,109 -30,107 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward -->
+								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="106" x2="6" y2="106.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M-30,98 Q-32,97 -31,100 L-28,101 Q-29,99 -30,98 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
+
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,108 Q12,109 32,108 Q32,109 12,110 Q-4,109 -4,108 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="106.5" x2="30" y2="106" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M32,101 Q33,98 31,100 L28,102 Q30,102 32,101 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="97" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="97.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
-							<rect x="-22" y="98" width="16" height="8" fill="#2a1f10" rx="2" filter="url(#blur)"/>
-							<rect x="6" y="101" width="16" height="8" fill="#2a1f10" rx="2" filter="url(#blur)"/>
-							<g class="leg leg-back">
-								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+
+							<!-- Thighs: nearly horizontal in aggressive tuck -->
+							<g class="thighs">
+								<!-- Left thigh: nearly flat, very bent knee -->
+								<path d="M-14,75 L0,75 L-10,90 L-22,88 Z" fill="var(--pant-color)"/>
+								<!-- Right thigh: matching angle -->
+								<path d="M14,76 L28,76 L18,91 L4,89 Z" fill="var(--pant-color)"/>
+								<!-- Shading for volume -->
+								<ellipse cx="-12" cy="82" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
+								<ellipse cx="12" cy="83" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
 							</g>
-							<g class="leg leg-front">
-								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+
+							<!-- Shins/Lower legs: aggressively bent, weight forward -->
+							<g class="shins">
+								<!-- Left shin: steep angle showing deep bend -->
+								<path d="M-10,90 L-2,90 L2,103 L-6,103 Z" fill="var(--pant-dark)"/>
+								<!-- Right shin: matching steep angle -->
+								<path d="M10,91 L18,91 L20,103 L12,103 Z" fill="var(--pant-dark)"/>
+								<!-- Shin shading for depth -->
+								<ellipse cx="-8" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
+								<ellipse cx="14" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
 							</g>
+
+							<!-- Hips: positioned back to show weight distribution -->
+							<g class="hips">
+								<!-- Hip/seat showing aggressive back position -->
+								<ellipse cx="0" cy="70" rx="16" ry="7" fill="var(--pant-color)"/>
+								<path d="M-16,70 L16,70 L14,72 L-14,72 Z" fill="var(--pant-dark)" opacity="0.4"/>
+							</g>
+
+							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
-								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
-								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.35" rx="1"/>
+								<!-- Main torso with forward lean -->
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
+									fill="var(--jacket-light)"/>
+								<!-- Back/shoulder shading -->
+								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
+								<!-- Chest definition -->
+								<path d="M8,45 Q10,50 10,60 L10,68 Q8,70 8,60 Q8,50 8,45 Z" fill="var(--jacket-dark)" opacity="0.3"/>
+								<!-- Bib -->
+								<rect x="-8" y="50" width="16" height="10" fill="var(--accent)" opacity="0.65" rx="1"/>
+								<text x="0" y="58" font-size="5.5" fill="var(--jacket-dark)" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" opacity="0.75">2</text>
+								<!-- Front zip -->
+								<line x1="0" y1="40" x2="0" y2="66" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
 							</g>
+
+							<!-- Shoulders: pulled forward in tuck position -->
+							<g class="shoulders">
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+							</g>
+
+							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
-								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-20" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-20" cy="106" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
+
+							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
-								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="20" y2="107" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="20" cy="107" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
+
+							<!-- Head: low, forward-focused in tuck -->
 							<g class="head">
-								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
-								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
-								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
-								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
-								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
+								<!-- Helmet in forward tuck position -->
+								<path d="M-7,22 Q-9,16 0,14 Q8,14 10,18 Q11,22 10,26 Q10,29 8,30 L-8,30 Q-9,29 -8,26 Z" fill="var(--helmet)"/>
+								<!-- Side panels -->
+								<circle cx="-8" cy="22" r="1.1" fill="var(--helmet)"/>
+								<circle cx="8" cy="23" r="1.1" fill="var(--helmet)"/>
+								<!-- Face area: forward-looking -->
+								<path d="M-5,27 Q0,29 5,27" fill="#e8c8a0"/>
+								<!-- Goggles: wraparound, forward-facing -->
+								<path d="M-8,20 L8,20 L7,24 L-7,24 Z" fill="#1a1a1a"/>
+								<ellipse cx="-3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
+								<ellipse cx="3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
 							</g>
-							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+
+							<!-- Scarf: wind streamer behind neck in tuck -->
+							<path class="scarf" d="M-3,32 Q-7,38 -10,48" stroke="var(--jacket-dark)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
 						</svg>
 					</div>
 				</div>
@@ -958,113 +1417,147 @@
 			<div class="traveler s3">
 				<div class="turn medium-turns">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
-							<g class="skis">
-								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#7ed0ff" opacity="0.95"/>
-								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#7ed0ff" opacity="0.95"/>
-								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
-								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
-							</g>
-							<rect x="-22" y="98" width="16" height="8" fill="#0a1620" rx="2" filter="url(#blur)"/>
-							<rect x="6" y="101" width="16" height="8" fill="#0a1620" rx="2" filter="url(#blur)"/>
-							<g class="leg leg-back">
-								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
-							</g>
-							<g class="leg leg-front">
-								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
-							</g>
-							<g class="torso">
-								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
-								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.35" rx="1"/>
-							</g>
-							<g class="arm arm-back">
-								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
-							</g>
-							<g class="arm arm-front">
-								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
-							</g>
-							<g class="head">
-								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
-								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
-								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
-								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
-								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
-							</g>
-							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
-						</svg>
-					</div>
-				</div>
-			</div>
+						<svg class="skier-svg" viewBox="-32 0 64 128" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<defs>
+								<filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/></filter>
+							</defs>
 
-			<!-- Skier 4: white jacket, short turns -->
-			<div class="traveler s4">
-				<div class="turn short-turns">
-					<div class="absorb">
-						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
+							<!-- Snow spray -->
+							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
+
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
-								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#e8ecff" opacity="0.95"/>
-								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#e8ecff" opacity="0.95"/>
-								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
-								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,107 Q-15,108 4,107 Q4,108 -15,109 Q-30,109 -30,107 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward -->
+								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="106" x2="6" y2="106.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M-30,98 Q-32,97 -31,100 L-28,101 Q-29,99 -30,98 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
+
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,108 Q12,109 32,108 Q32,109 12,110 Q-4,109 -4,108 Z" fill="rgba(140,170,210,0.4)"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="106.5" x2="30" y2="106" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M32,101 Q33,98 31,100 L28,102 Q30,102 32,101 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="97" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="97.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
-							<rect x="-22" y="98" width="16" height="8" fill="#0f1420" rx="2" filter="url(#blur)"/>
-							<rect x="6" y="101" width="16" height="8" fill="#0f1420" rx="2" filter="url(#blur)"/>
-							<g class="leg leg-back">
-								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+
+							<!-- Thighs: nearly horizontal in aggressive tuck -->
+							<g class="thighs">
+								<!-- Left thigh: nearly flat, very bent knee -->
+								<path d="M-14,75 L0,75 L-10,90 L-22,88 Z" fill="var(--pant-color)"/>
+								<!-- Right thigh: matching angle -->
+								<path d="M14,76 L28,76 L18,91 L4,89 Z" fill="var(--pant-color)"/>
+								<!-- Shading for volume -->
+								<ellipse cx="-12" cy="82" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
+								<ellipse cx="12" cy="83" rx="3" ry="4" fill="rgba(0,0,0,0.1)"/>
 							</g>
-							<g class="leg leg-front">
-								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
-								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
+
+							<!-- Shins/Lower legs: aggressively bent, weight forward -->
+							<g class="shins">
+								<!-- Left shin: steep angle showing deep bend -->
+								<path d="M-10,90 L-2,90 L2,103 L-6,103 Z" fill="var(--pant-dark)"/>
+								<!-- Right shin: matching steep angle -->
+								<path d="M10,91 L18,91 L20,103 L12,103 Z" fill="var(--pant-dark)"/>
+								<!-- Shin shading for depth -->
+								<ellipse cx="-8" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
+								<ellipse cx="14" cy="96" rx="2" ry="2.5" fill="rgba(0,0,0,0.15)"/>
 							</g>
+
+							<!-- Hips: positioned back to show weight distribution -->
+							<g class="hips">
+								<!-- Hip/seat showing aggressive back position -->
+								<ellipse cx="0" cy="70" rx="16" ry="7" fill="var(--pant-color)"/>
+								<path d="M-16,70 L16,70 L14,72 L-14,72 Z" fill="var(--pant-dark)" opacity="0.4"/>
+							</g>
+
+							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
-								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
-								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.25" rx="1"/>
+								<!-- Main torso with forward lean -->
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
+									fill="var(--jacket-light)"/>
+								<!-- Back/shoulder shading -->
+								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
+								<!-- Chest definition -->
+								<path d="M8,45 Q10,50 10,60 L10,68 Q8,70 8,60 Q8,50 8,45 Z" fill="var(--jacket-dark)" opacity="0.3"/>
+								<!-- Bib -->
+								<rect x="-8" y="50" width="16" height="10" fill="var(--accent)" opacity="0.65" rx="1"/>
+								<text x="0" y="58" font-size="5.5" fill="var(--jacket-dark)" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" opacity="0.75">3</text>
+								<!-- Front zip -->
+								<line x1="0" y1="40" x2="0" y2="66" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
 							</g>
+
+							<!-- Shoulders: pulled forward in tuck position -->
+							<g class="shoulders">
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+							</g>
+
+							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
-								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-20" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-20" cy="106" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
+
+							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
-								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
-								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
-								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
-								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
+								<!-- Upper arm close to torso -->
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
+								<!-- Forearm bent -->
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
+								<!-- Hand at pole grip -->
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
+								<!-- Pole: angled back and out behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="20" y2="107" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
+								<!-- Basket near tip -->
+								<ellipse cx="20" cy="107" rx="2.5" ry="0.9" fill="#999999" stroke="#555" stroke-width="0.3" opacity="0.95"/>
 							</g>
+
+							<!-- Head: low, forward-focused in tuck -->
 							<g class="head">
-								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
-								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
-								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
-								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
-								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
-								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
-								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
+								<!-- Helmet in forward tuck position -->
+								<path d="M-7,22 Q-9,16 0,14 Q8,14 10,18 Q11,22 10,26 Q10,29 8,30 L-8,30 Q-9,29 -8,26 Z" fill="var(--helmet)"/>
+								<!-- Side panels -->
+								<circle cx="-8" cy="22" r="1.1" fill="var(--helmet)"/>
+								<circle cx="8" cy="23" r="1.1" fill="var(--helmet)"/>
+								<!-- Face area: forward-looking -->
+								<path d="M-5,27 Q0,29 5,27" fill="#e8c8a0"/>
+								<!-- Goggles: wraparound, forward-facing -->
+								<path d="M-8,20 L8,20 L7,24 L-7,24 Z" fill="#1a1a1a"/>
+								<ellipse cx="-3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
+								<ellipse cx="3" cy="22" rx="2" ry="1.3" fill="#2a5a9a" opacity="0.8" class="goggle-shine"/>
 							</g>
-							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+
+							<!-- Scarf: wind streamer behind neck in tuck -->
+							<path class="scarf" d="M-3,32 Q-7,38 -10,48" stroke="var(--jacket-dark)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
 						</svg>
 					</div>
 				</div>
@@ -1076,5 +1569,49 @@
 		<h1 class="title">remoraschle.github.io</h1>
 		<p class="legend">short turns · giant slalom · carving</p>
 	</div>
+
+	<script>
+		(function generateForest() {
+			const group = document.getElementById('forest-trees');
+			if (!group) return;
+
+			let seed = 1337;
+			const rand = () => {
+				seed = (seed * 16807) % 2147483647;
+				return seed / 2147483647;
+			};
+
+			const NS = 'http://www.w3.org/2000/svg';
+			const baseline = 95;
+			const totalWidth = 1600;
+			let x = -4;
+			let i = 0;
+
+			while (x < totalWidth + 8) {
+				const heightTier = rand();
+				let h;
+				if (heightTier < 0.18) h = 16 + rand() * 8;
+				else if (heightTier < 0.55) h = 26 + rand() * 12;
+				else if (heightTier < 0.85) h = 38 + rand() * 14;
+				else h = 52 + rand() * 12;
+
+				const w = 5 + rand() * 6;
+
+				const tree = document.createElementNS(NS, 'polygon');
+				tree.setAttribute('points',
+					`${(x - w / 2).toFixed(1)},${baseline} ` +
+					`${x.toFixed(1)},${(baseline - h).toFixed(1)} ` +
+					`${(x + w / 2).toFixed(1)},${baseline}`
+				);
+				group.appendChild(tree);
+
+				const spacing = 3 + rand() * 16;
+				const cluster = rand() < 0.18 ? -2 : 0;
+				x += spacing + cluster;
+				i++;
+				if (i > 400) break;
+			}
+		})();
+	</script>
 </body>
 </html>
