@@ -601,8 +601,11 @@
 		.s1 .arm-back,
 		.s1 .spray,
 		.s1 .goggle-shine { animation-delay: -0.3s; }
-		.s1 .skier-svg { transform: perspective(800px) rotateZ(-6deg) rotateX(2deg); }
-		.s1 .head { transform: rotateY(-14deg); }
+		.s1 .skier-svg {
+			transform: perspective(900px) rotateZ(-15deg) rotateX(3deg);
+			transform-origin: 50% 95%;
+		}
+		.s1 .head { transform: rotate(-10deg); transform-origin: 0 30px; }
 		.s1 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
 
 		.s2 .turn,
@@ -613,8 +616,11 @@
 		.s2 .arm-back,
 		.s2 .spray,
 		.s2 .goggle-shine { animation-delay: -1.7s; }
-		.s2 .skier-svg { transform: perspective(800px) rotateZ(0deg) rotateY(3deg); }
-		.s2 .head { transform: rotateY(0deg); }
+		.s2 .skier-svg {
+			transform: perspective(900px) rotateZ(0deg) rotateY(4deg) rotateX(2deg);
+			transform-origin: 50% 95%;
+		}
+		.s2 .head { transform: rotate(0deg); transform-origin: 0 30px; }
 		.s2 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
 
 		.s3 .turn,
@@ -625,8 +631,11 @@
 		.s3 .arm-back,
 		.s3 .spray,
 		.s3 .goggle-shine { animation-delay: -0.9s; }
-		.s3 .skier-svg { transform: perspective(800px) rotateZ(6deg) rotateX(-2deg); }
-		.s3 .head { transform: rotateY(14deg); }
+		.s3 .skier-svg {
+			transform: perspective(900px) rotateZ(15deg) rotateX(-3deg);
+			transform-origin: 50% 95%;
+		}
+		.s3 .head { transform: rotate(10deg); transform-origin: 0 30px; }
 		.s3 .pole-shaft { stroke-width: 1.7 !important; stroke: #0a0805 !important; }
 
 		.s4 .turn,
@@ -1116,11 +1125,15 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: long racing skis with curved upturned tips -->
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,112 Q-15,113 4,112 Q4,113 -15,114 Q-30,114 -30,112 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Left ski: long with dramatic upturned tip pointing forward (down-slope) -->
 								<path d="M-30,103 Q-32,101 -30,105 Q-28,107 -22,107 L4,108 Q8,108 8,109.5 Q8,111 4,111 L-22,110 Q-28,110 -30,108 Q-32,107 -30,103 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="111" x2="6" y2="111.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-26" y1="108" x2="6" y2="108.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail (front upturn) -->
@@ -1129,9 +1142,13 @@
 								<rect x="-13" y="100" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
 								<rect x="-12.5" y="100.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,113 Q12,114 32,113 Q32,114 12,115 Q-4,114 -4,113 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Right ski: long with dramatic upturned tip -->
 								<path d="M-4,109 L24,108 Q30,108 32,106 Q33,103 31,105 Q29,107 24,107 L-4,108 Q-8,108 -8,109.5 Q-8,111 -4,111 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="111.5" x2="30" y2="111" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-2" y1="109" x2="28" y2="108" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail (front upturn) -->
@@ -1258,11 +1275,15 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: long racing skis with curved upturned tips -->
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,107 Q-15,108 4,107 Q4,108 -15,109 Q-30,109 -30,107 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Left ski: long with dramatic upturned tip pointing forward -->
 								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="106" x2="6" y2="106.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail -->
@@ -1271,9 +1292,13 @@
 								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
 								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,108 Q12,109 32,108 Q32,109 12,110 Q-4,109 -4,108 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Right ski: long with dramatic upturned tip -->
 								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="106.5" x2="30" y2="106" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail -->
@@ -1400,11 +1425,15 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: long racing skis with curved upturned tips -->
+							<!-- Skis: long racing skis with curved upturned tips, on edge (carving) -->
 							<g class="skis">
+								<!-- Snow trail / carve mark behind left ski -->
+								<path d="M-30,107 Q-15,108 4,107 Q4,108 -15,109 Q-30,109 -30,107 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Left ski: long with dramatic upturned tip pointing forward -->
 								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow (carving line) -->
+								<line x1="-28" y1="106" x2="6" y2="106.5" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail -->
@@ -1413,9 +1442,13 @@
 								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
 								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
+								<!-- Snow trail / carve mark behind right ski -->
+								<path d="M-4,108 Q12,109 32,108 Q32,109 12,110 Q-4,109 -4,108 Z" fill="rgba(140,170,210,0.4)"/>
 								<!-- Right ski: long with dramatic upturned tip -->
 								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
 									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Sharp metal edge cutting snow -->
+								<line x1="-2" y1="106.5" x2="30" y2="106" stroke="#1a2030" stroke-width="0.6" stroke-linecap="round" opacity="0.9"/>
 								<!-- Top edge highlight -->
 								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
 								<!-- Ski tip detail -->
