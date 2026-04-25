@@ -494,9 +494,9 @@
 			height: 132px;
 			margin-left: -44px;
 			z-index: 30;
-			animation: descend linear infinite;
+			animation: descend cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 			will-change: transform;
-			filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+			filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.32)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
 		}
 
 		@keyframes descend {
@@ -505,10 +505,13 @@
 				opacity: 0;
 				transform: translateX(0) scale(0.4);
 			}
-			6% {
+			3% {
+				opacity: 0.3;
+			}
+			12% {
 				opacity: 1;
 			}
-			95% {
+			90% {
 				opacity: 1;
 			}
 			100% {
@@ -584,7 +587,7 @@
 
 		/* Turn patterns - applied to the whole traveler, so gates appear after skier's path */
 		.turn.short-turns {
-			animation: short-turns 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: short-turns 1.2s cubic-bezier(0.34, 0.1, 0.66, 0.9) infinite;
 		}
 
 		@keyframes short-turns {
@@ -596,7 +599,7 @@
 		}
 
 		.turn.carving {
-			animation: carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: carving 4.4s cubic-bezier(0.35, 0.05, 0.65, 0.95) infinite;
 		}
 
 		@keyframes carving {
@@ -606,7 +609,7 @@
 		}
 
 		.turn.medium-turns {
-			animation: medium-turns 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: medium-turns 2.4s cubic-bezier(0.38, 0.1, 0.62, 0.9) infinite;
 		}
 
 		@keyframes medium-turns {
@@ -669,15 +672,15 @@
 		}
 
 		.short-turns .arm-front {
-			animation: pole-plant-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: pole-plant-short 1.2s cubic-bezier(0.34, 0.1, 0.66, 0.9) infinite;
 		}
 
 		.carving .arm-front {
-			animation: pole-plant-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: pole-plant-carving 4.4s cubic-bezier(0.35, 0.05, 0.65, 0.95) infinite;
 		}
 
 		.medium-turns .arm-front {
-			animation: pole-plant-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: pole-plant-medium 2.4s cubic-bezier(0.38, 0.1, 0.62, 0.9) infinite;
 		}
 
 		@keyframes pole-plant-short {
@@ -707,15 +710,15 @@
 		}
 
 		.short-turns .arm-back {
-			animation: arm-back-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite reverse;
+			animation: arm-back-short 1.2s cubic-bezier(0.34, 0.1, 0.66, 0.9) infinite reverse;
 		}
 
 		.carving .arm-back {
-			animation: arm-back-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite reverse;
+			animation: arm-back-carving 4.4s cubic-bezier(0.35, 0.05, 0.65, 0.95) infinite reverse;
 		}
 
 		.medium-turns .arm-back {
-			animation: arm-back-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite reverse;
+			animation: arm-back-medium 2.4s cubic-bezier(0.38, 0.1, 0.62, 0.9) infinite reverse;
 		}
 
 		@keyframes arm-back-short {
@@ -780,15 +783,15 @@
 		}
 
 		.short-turns .head {
-			animation: head-tilt 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+			animation: head-tilt 1.2s cubic-bezier(0.34, 0.1, 0.66, 0.9) infinite;
 		}
 
 		.carving .head {
-			animation: head-tilt 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+			animation: head-tilt 4.4s cubic-bezier(0.35, 0.05, 0.65, 0.95) infinite;
 		}
 
 		.medium-turns .head {
-			animation: head-tilt 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
+			animation: head-tilt 2.4s cubic-bezier(0.38, 0.1, 0.62, 0.9) infinite;
 		}
 
 		@keyframes head-tilt {
@@ -815,8 +818,8 @@
 		}
 
 		@keyframes glint {
-			0%, 30%, 70%, 100% { opacity: 0.4; }
-			50% { opacity: 1; }
+			0%, 20%, 80%, 100% { opacity: 0.35; }
+			40%, 60% { opacity: 0.95; }
 		}
 
 	</style>
