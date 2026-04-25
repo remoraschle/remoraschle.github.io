@@ -11,7 +11,9 @@
 		html, body {
 			height: 100%;
 			overflow: hidden;
-			font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
 		}
 
 		.scene {
@@ -20,18 +22,86 @@
 			height: 100vh;
 			overflow: hidden;
 			background: linear-gradient(180deg,
-				#0a0f2e 0%,
-				#1a1555 12%,
-				#3a1e5e 22%,
-				#5a2d5e 32%,
-				#8b3a4a 42%,
-				#d85a3a 52%,
-				#ff9540 60%,
-				#ffb870 68%,
-				#e8d4b8 75%,
-				#d0e4f7 85%,
+				#050a1f 0%,
+				#0f1535 8%,
+				#1a1548 14%,
+				#2d1a5a 20%,
+				#4a2555 28%,
+				#7a3a5a 38%,
+				#b84a4a 48%,
+				#d86a3a 56%,
+				#f09a4a 62%,
+				#ffc060 68%,
+				#ffe8a0 74%,
+				#f0e4d8 80%,
+				#e8f0f8 88%,
 				#ffffff 100%
 			);
+		}
+
+		/* God rays / crepuscular rays from sun */
+		.rays {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 100%;
+			height: 100%;
+			margin-left: -50%;
+			pointer-events: none;
+			z-index: 2;
+			background:
+				repeating-linear-gradient(
+					15deg,
+					transparent 0,
+					transparent 80px,
+					rgba(255, 200, 100, 0.04) 80px,
+					rgba(255, 200, 100, 0.04) 160px
+				),
+				repeating-linear-gradient(
+					-12deg,
+					transparent 0,
+					transparent 100px,
+					rgba(255, 180, 80, 0.03) 100px,
+					rgba(255, 180, 80, 0.03) 200px
+				);
+			opacity: 0.6;
+			animation: rays-shimmer 8s ease-in-out infinite;
+		}
+
+		@keyframes rays-shimmer {
+			0%, 100% { opacity: 0.5; }
+			50% { opacity: 0.75; }
+		}
+
+		/* Atmospheric haze layers */
+		.haze {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 3;
+		}
+
+		.haze::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 35%;
+			background: radial-gradient(ellipse at 50% -50%, rgba(255,200,100,0.15) 0%, transparent 60%);
+			opacity: 0.8;
+		}
+
+		.haze::after {
+			content: "";
+			position: absolute;
+			top: 45%;
+			left: 0;
+			width: 100%;
+			height: 30%;
+			background: linear-gradient(180deg, rgba(255,220,180,0.08) 0%, rgba(200,180,160,0.04) 100%);
 		}
 
 		/* Stars in night sky */
@@ -40,77 +110,134 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 50%;
+			height: 45%;
 			pointer-events: none;
+			z-index: 1;
+		}
+
+		.stars::before,
+		.stars::after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
 			background-image:
-				radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.9), transparent),
-				radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.7), transparent),
-				radial-gradient(1.5px 1.5px at 50% 50%, rgba(255,255,255,0.8), transparent),
-				radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.6), transparent),
-				radial-gradient(2px 2px at 15% 80%, rgba(255,255,255,0.5), transparent),
-				radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.8), transparent),
-				radial-gradient(1.5px 1.5px at 35% 60%, rgba(255,255,255,0.7), transparent),
-				radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,0.6), transparent);
+				radial-gradient(1.5px 1.5px at 8% 12%, rgba(255,255,255,0.95), transparent),
+				radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.8), transparent),
+				radial-gradient(1.5px 1.5px at 42% 18%, rgba(255,255,255,0.9), transparent),
+				radial-gradient(1px 1px at 62% 6%, rgba(255,255,255,0.7), transparent),
+				radial-gradient(2px 2px at 78% 14%, rgba(255,255,255,0.85), transparent),
+				radial-gradient(1px 1px at 90% 4%, rgba(255,255,255,0.75), transparent),
+				radial-gradient(1.5px 1.5px at 15% 35%, rgba(255,255,255,0.8), transparent),
+				radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.7), transparent),
+				radial-gradient(1px 1px at 35% 40%, rgba(255,255,255,0.75), transparent),
+				radial-gradient(1.5px 1.5px at 88% 28%, rgba(255,255,255,0.8), transparent);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
+			animation: twinkle 4s ease-in-out infinite;
 		}
 
-		/* Sun glow near horizon */
+		.stars::after {
+			animation: twinkle 5.5s ease-in-out infinite reverse;
+			opacity: 0.6;
+		}
+
+		@keyframes twinkle {
+			0%, 100% { opacity: 0.4; }
+			50% { opacity: 0.8; }
+		}
+
+		/* Sun glow and corona */
 		.sun {
 			position: absolute;
-			top: 48%;
+			top: 50%;
 			left: 50%;
-			width: 400px;
-			height: 400px;
-			margin-left: -200px;
-			margin-top: -200px;
-			background: radial-gradient(circle, rgba(255,240,200,0.8) 0%, rgba(255,200,100,0.4) 20%, rgba(255,140,60,0.15) 40%, transparent 70%);
-			filter: blur(3px);
+			width: 380px;
+			height: 380px;
+			margin-left: -190px;
+			margin-top: -190px;
 			pointer-events: none;
-			animation: sun-pulse 5s ease-in-out infinite;
+			z-index: 1;
 		}
 
-		@keyframes sun-pulse {
+		.sun::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 50%;
+			background: radial-gradient(circle,
+				rgba(255, 250, 230, 1) 0%,
+				rgba(255, 240, 200, 0.8) 8%,
+				rgba(255, 200, 100, 0.5) 18%,
+				rgba(255, 160, 80, 0.25) 32%,
+				rgba(255, 120, 60, 0.08) 50%,
+				transparent 70%
+			);
+			filter: blur(2px);
+			animation: sun-glow 5s ease-in-out infinite;
+		}
+
+		.sun::after {
+			content: "";
+			position: absolute;
+			inset: -20px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(255, 180, 100, 0.15) 0%, transparent 60%);
+			filter: blur(8px);
+			animation: sun-corona 7s ease-in-out infinite reverse;
+		}
+
+		@keyframes sun-glow {
 			0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
-			50% { transform: scale(1.1) translateY(-4px); opacity: 1; }
+			50% { transform: scale(1.08) translateY(-6px); opacity: 1; }
 		}
 
-		/* Mountain layers */
+		@keyframes sun-corona {
+			0%, 100% { transform: scale(1); opacity: 0.5; }
+			50% { transform: scale(1.15); opacity: 0.7; }
+		}
+
+		/* Mountain layers with sophisticated gradients */
 		.mountains {
 			position: absolute;
 			left: 0;
 			width: 100%;
 			pointer-events: none;
+			z-index: 4;
 		}
 
 		.mountains.far {
-			bottom: 48%;
-			height: 28%;
-			opacity: 0.5;
-			filter: blur(1px);
+			bottom: 47%;
+			height: 30%;
+			opacity: 0.45;
+			filter: blur(1.5px);
 		}
 
 		.mountains.mid {
-			bottom: 46%;
-			height: 26%;
-			opacity: 0.75;
+			bottom: 45%;
+			height: 28%;
+			opacity: 0.7;
+			filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 		}
 
 		.mountains.near {
-			bottom: 44%;
-			height: 24%;
+			bottom: 43%;
+			height: 26%;
 			opacity: 1;
+			filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
 		}
 
 		/* Pine forest silhouette */
 		.forest {
 			position: absolute;
-			bottom: 44%;
+			bottom: 43%;
 			left: 0;
 			width: 100%;
-			height: 18%;
+			height: 20%;
 			pointer-events: none;
-			opacity: 0.85;
+			z-index: 5;
+			opacity: 0.9;
+			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
 		}
 
 		/* Slope area */
@@ -119,28 +246,46 @@
 			bottom: 0;
 			left: 0;
 			width: 100%;
-			height: 56%;
+			height: 57%;
 			overflow: hidden;
 			background: linear-gradient(180deg,
-				rgba(245,250,255,0.7) 0%,
-				rgba(255,255,255,0.9) 30%,
-				rgba(255,255,255,1) 100%
+				rgba(250, 252, 255, 0.6) 0%,
+				rgba(255, 255, 255, 0.85) 20%,
+				rgba(255, 255, 255, 0.95) 50%,
+				rgba(250, 250, 255, 1) 100%
 			);
+			box-shadow: inset 0 -40px 60px rgba(0, 0, 0, 0.08);
 		}
 
-		/* Slope texture: subtle patterns */
+		/* Slope texture: subtle diagonal patterns */
 		.slope::before {
 			content: "";
 			position: absolute;
 			inset: 0;
 			background-image:
-				repeating-linear-gradient(90deg, transparent, transparent 120px, rgba(160,200,240,0.08) 120px, rgba(160,200,240,0.08) 121px),
-				radial-gradient(ellipse 300px 200px at 50% 0%, rgba(255,180,100,0.04) 0%, transparent 100%);
+				repeating-linear-gradient(
+					90deg,
+					transparent 0,
+					transparent 140px,
+					rgba(150, 180, 220, 0.05) 140px,
+					rgba(150, 180, 220, 0.05) 142px
+				),
+				repeating-linear-gradient(
+					35deg,
+					transparent 0,
+					transparent 300px,
+					rgba(200, 200, 240, 0.03) 300px,
+					rgba(200, 200, 240, 0.03) 302px
+				),
+				radial-gradient(ellipse 500px 300px at 50% -100px,
+					rgba(255, 200, 100, 0.06) 0%,
+					transparent 100%
+				);
 			pointer-events: none;
 			z-index: 1;
 		}
 
-		/* Falling snow: three layers */
+		/* Falling snow: multi-layer parallax */
 		.snowfall {
 			position: absolute;
 			top: 0;
@@ -151,34 +296,51 @@
 			z-index: 50;
 		}
 
-		.snowfall::before,
+		.snowfall::before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 130%;
+			background-image:
+				radial-gradient(1.5px 1.5px at 5% 15%, rgba(255,255,255,0.95), transparent),
+				radial-gradient(1.5px 1.5px at 18% 40%, rgba(255,255,255,0.88), transparent),
+				radial-gradient(1px 1px at 35% 20%, rgba(255,255,255,0.9), transparent),
+				radial-gradient(2px 2px at 50% 60%, rgba(255,255,255,0.85), transparent),
+				radial-gradient(1px 1px at 68% 35%, rgba(255,255,255,0.92), transparent),
+				radial-gradient(1.5px 1.5px at 82% 55%, rgba(255,255,255,0.8), transparent),
+				radial-gradient(1px 1px at 25% 75%, rgba(255,255,255,0.75), transparent),
+				radial-gradient(1.5px 1.5px at 75% 15%, rgba(255,255,255,0.85), transparent);
+			background-size: 100% 100%;
+			background-repeat: repeat;
+			animation: snow-fall-slow 10s linear infinite;
+		}
+
 		.snowfall::after {
 			content: "";
 			position: absolute;
 			width: 100%;
-			height: 120%;
+			height: 130%;
 			background-image:
-				radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.9), transparent),
-				radial-gradient(1.5px 1.5px at 40% 60%, rgba(255,255,255,0.8), transparent),
-				radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.8), transparent),
-				radial-gradient(2px 2px at 25% 80%, rgba(255,255,255,0.7), transparent),
-				radial-gradient(1px 1px at 85% 50%, rgba(255,255,255,0.8), transparent),
-				radial-gradient(1.5px 1.5px at 55% 10%, rgba(255,255,255,0.7), transparent);
-			background-size: 200% 200%;
+				radial-gradient(1px 1px at 12% 25%, rgba(255,255,255,0.85), transparent),
+				radial-gradient(1.5px 1.5px at 45% 50%, rgba(255,255,255,0.8), transparent),
+				radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.9), transparent),
+				radial-gradient(1.5px 1.5px at 30% 55%, rgba(255,255,255,0.75), transparent),
+				radial-gradient(1px 1px at 88% 40%, rgba(255,255,255,0.82), transparent);
+			background-size: 100% 100%;
 			background-repeat: repeat;
-			animation: snowfall-fall 8s linear infinite;
+			opacity: 0.7;
+			animation: snow-fall-medium 7s linear infinite;
+			filter: blur(0.3px);
 		}
 
-		.snowfall::after {
-			background-size: 300% 300%;
-			opacity: 0.6;
-			animation: snowfall-fall 12s linear infinite;
-			filter: blur(0.5px);
-		}
-
-		@keyframes snowfall-fall {
+		@keyframes snow-fall-slow {
 			0% { transform: translateY(-100%); }
 			100% { transform: translateY(100%); }
+		}
+
+		@keyframes snow-fall-medium {
+			0% { transform: translateY(-100%) translateX(-2px); }
+			100% { transform: translateY(100%) translateX(2px); }
 		}
 
 		/* Slalom flags */
@@ -192,50 +354,61 @@
 
 		.flag {
 			position: absolute;
-			width: 3px;
-			height: 50px;
-			background: #5b3a1e;
+			width: 3.5px;
+			height: 58px;
+			background: linear-gradient(180deg, #7a5a3a 0%, #5a3a2a 100%);
+			filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 		}
 
 		.flag::after {
 			content: "";
 			position: absolute;
-			top: 0;
-			left: 3px;
-			width: 24px;
-			height: 16px;
-			background: #e63946;
-			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 65%);
+			top: 4px;
+			left: 3.5px;
+			width: 28px;
+			height: 18px;
+			background: linear-gradient(135deg, #ff4444 0%, #e63946 100%);
+			clip-path: polygon(0 0, 100% 5%, 95% 100%, 0 70%);
+			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 		}
 
-		.flag.blue::after { background: #1d6fd1; }
+		.flag.blue::after {
+			background: linear-gradient(135deg, #3d9cff 0%, #1d6fd1 100%);
+		}
 
 		/* Title and legend */
 		.title {
 			position: absolute;
-			top: 28px;
+			top: 32px;
 			left: 50%;
 			transform: translateX(-50%);
 			z-index: 100;
-			font-size: 20px;
-			letter-spacing: 0.15em;
+			font-size: 22px;
+			letter-spacing: 0.2em;
 			font-weight: 300;
-			color: rgba(255,255,255,0.95);
-			text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+			color: rgba(255, 255, 255, 0.98);
+			text-shadow:
+				0 2px 8px rgba(0, 0, 0, 0.35),
+				0 0 20px rgba(255, 150, 100, 0.1);
 			text-transform: uppercase;
+			backdrop-filter: blur(4px);
+			padding: 8px 24px;
+			border-radius: 20px;
+			background: rgba(0, 0, 0, 0.08);
 		}
 
 		.legend {
 			position: absolute;
-			bottom: 18px;
+			bottom: 22px;
 			left: 0;
 			right: 0;
 			text-align: center;
 			z-index: 100;
-			font-size: 12px;
-			color: rgba(255,255,255,0.8);
-			letter-spacing: 0.08em;
-			text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+			font-size: 11px;
+			color: rgba(255, 255, 255, 0.75);
+			letter-spacing: 0.12em;
+			text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+			text-transform: uppercase;
 		}
 
 		/* ========== SKIER ANIMATIONS ========== */
@@ -243,63 +416,68 @@
 		.traveler {
 			position: absolute;
 			left: 50%;
-			width: 80px;
-			height: 120px;
-			margin-left: -40px;
+			width: 88px;
+			height: 132px;
+			margin-left: -44px;
 			z-index: 30;
 			animation: descend linear infinite;
 			will-change: transform;
+			filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
 		}
 
 		@keyframes descend {
 			0% {
-				bottom: 120%;
+				bottom: 115%;
 				opacity: 0;
-				transform: translateX(0) scale(0.3);
+				transform: translateX(0) scale(0.28);
 			}
-			5% {
+			4% {
 				opacity: 1;
 			}
 			100% {
-				bottom: -20%;
+				bottom: -15%;
 				opacity: 0;
-				transform: translateX(0) scale(1.2);
+				transform: translateX(0) scale(1.3);
 			}
 		}
 
 		.traveler.s1 {
-			animation-duration: 11s;
+			animation-duration: 11.5s;
 			animation-delay: 0s;
-			--jacket-light: #ff6b7a;
+			--jacket-light: #ff7a8a;
 			--jacket-dark: #c83a46;
-			--helmet: #2a1a0a;
+			--accent: #ffb3b8;
+			--helmet: #1a1410;
 		}
 
 		.traveler.s2 {
-			animation-duration: 15s;
+			animation-duration: 15.5s;
 			animation-delay: -3.5s;
-			left: 35%;
-			--jacket-light: #ffd89b;
+			left: 32%;
+			--jacket-light: #ffd9a8;
 			--jacket-dark: #ffb84d;
-			--helmet: #3a2410;
+			--accent: #ffe4c4;
+			--helmet: #2a1f10;
 		}
 
 		.traveler.s3 {
-			animation-duration: 13s;
-			animation-delay: -6.5s;
-			left: 65%;
-			--jacket-light: #4da6d6;
-			--jacket-dark: #1d5a8a;
-			--helmet: #0a1a2a;
+			animation-duration: 13.5s;
+			animation-delay: -6.8s;
+			left: 68%;
+			--jacket-light: #5eb8e8;
+			--jacket-dark: #1d6aa0;
+			--accent: #8ed4ff;
+			--helmet: #0a1620;
 		}
 
 		.traveler.s4 {
-			animation-duration: 17s;
+			animation-duration: 17.5s;
 			animation-delay: -1s;
-			left: 48%;
-			--jacket-light: #e8e8ff;
-			--jacket-dark: #d0d0f0;
-			--helmet: #1a1a2a;
+			left: 46%;
+			--jacket-light: #e8ecff;
+			--jacket-dark: #d4d8ff;
+			--accent: #f0f4ff;
+			--helmet: #0f1420;
 		}
 
 		/* Turn patterns */
@@ -312,35 +490,35 @@
 		}
 
 		.turn.short-turns {
-			animation: short-turns 1.2s ease-in-out infinite;
+			animation: short-turns 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 		}
 
 		@keyframes short-turns {
-			0%   { transform: translateX(-32px) rotate(-16deg); }
+			0%   { transform: translateX(-36px) rotate(-18deg); }
 			25%  { transform: translateX(0px)   rotate(0deg); }
-			50%  { transform: translateX(32px)  rotate(16deg); }
+			50%  { transform: translateX(36px)  rotate(18deg); }
 			75%  { transform: translateX(0px)   rotate(0deg); }
-			100% { transform: translateX(-32px) rotate(-16deg); }
+			100% { transform: translateX(-36px) rotate(-18deg); }
 		}
 
 		.turn.carving {
-			animation: carving 4.2s ease-in-out infinite;
+			animation: carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 		}
 
 		@keyframes carving {
-			0%   { transform: translateX(-20vw) rotate(-28deg); }
-			50%  { transform: translateX(20vw)  rotate(28deg); }
-			100% { transform: translateX(-20vw) rotate(-28deg); }
+			0%   { transform: translateX(-22vw) rotate(-30deg); }
+			50%  { transform: translateX(22vw)  rotate(30deg); }
+			100% { transform: translateX(-22vw) rotate(-30deg); }
 		}
 
 		.turn.medium-turns {
-			animation: medium-turns 2.4s ease-in-out infinite;
+			animation: medium-turns 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
 		}
 
 		@keyframes medium-turns {
-			0%   { transform: translateX(-12vw) rotate(-22deg); }
-			50%  { transform: translateX(12vw)  rotate(22deg); }
-			100% { transform: translateX(-12vw) rotate(-22deg); }
+			0%   { transform: translateX(-13vw) rotate(-24deg); }
+			50%  { transform: translateX(13vw)  rotate(24deg); }
+			100% { transform: translateX(-13vw) rotate(-24deg); }
 		}
 
 		/* Compression/extension wrapper */
@@ -352,13 +530,12 @@
 			transform-origin: 50% 50%;
 		}
 
-		.short-turns ~ .absorb,
 		.short-turns .absorb {
 			animation: absorb-short 0.6s ease-in-out infinite alternate;
 		}
 
 		.carving .absorb {
-			animation: absorb-carving 2.1s ease-in-out infinite alternate;
+			animation: absorb-carving 2.2s ease-in-out infinite alternate;
 		}
 
 		.medium-turns .absorb {
@@ -366,18 +543,18 @@
 		}
 
 		@keyframes absorb-short {
-			from { transform: scaleY(1) translateY(0); }
-			to { transform: scaleY(0.88) translateY(3px); }
+			from { transform: scaleY(1) scaleX(1.02) translateY(0); }
+			to { transform: scaleY(0.85) scaleX(0.98) translateY(4px); }
 		}
 
 		@keyframes absorb-medium {
-			from { transform: scaleY(1) translateY(0); }
-			to { transform: scaleY(0.89) translateY(2.5px); }
+			from { transform: scaleY(1) scaleX(1.01) translateY(0); }
+			to { transform: scaleY(0.86) scaleX(0.99) translateY(3.5px); }
 		}
 
 		@keyframes absorb-carving {
-			from { transform: scaleY(1) translateY(0); }
-			to { transform: scaleY(0.87) translateY(4px); }
+			from { transform: scaleY(1) scaleX(1.02) translateY(0); }
+			to { transform: scaleY(0.84) scaleX(0.98) translateY(5px); }
 		}
 
 		/* Skier SVG */
@@ -389,96 +566,95 @@
 			height: 100%;
 			margin-left: -50%;
 			margin-top: -50%;
-			filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
 		}
 
 		/* Arms with pole plants */
 		.arm-front {
-			transform-origin: 50% 30%;
+			transform-origin: 50% 32%;
 			will-change: transform;
 		}
 
 		.short-turns .arm-front {
-			animation: pole-plant-short 1.2s ease-in-out infinite;
+			animation: pole-plant-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 		}
 
 		.carving .arm-front {
-			animation: pole-plant-carving 4.2s ease-in-out infinite;
+			animation: pole-plant-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 		}
 
 		.medium-turns .arm-front {
-			animation: pole-plant-medium 2.4s ease-in-out infinite;
+			animation: pole-plant-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
 		}
 
 		@keyframes pole-plant-short {
-			0%, 60% { transform: rotate(18deg); }
-			70% { transform: rotate(55deg); }
-			85% { transform: rotate(18deg); }
-			100% { transform: rotate(18deg); }
+			0%, 55% { transform: rotate(20deg); }
+			65% { transform: rotate(60deg); }
+			80% { transform: rotate(20deg); }
+			100% { transform: rotate(20deg); }
 		}
 
 		@keyframes pole-plant-medium {
-			0%, 60% { transform: rotate(18deg); }
-			70% { transform: rotate(50deg); }
-			85% { transform: rotate(18deg); }
-			100% { transform: rotate(18deg); }
+			0%, 55% { transform: rotate(20deg); }
+			65% { transform: rotate(54deg); }
+			80% { transform: rotate(20deg); }
+			100% { transform: rotate(20deg); }
 		}
 
 		@keyframes pole-plant-carving {
-			0%, 60% { transform: rotate(18deg); }
-			70% { transform: rotate(45deg); }
-			85% { transform: rotate(18deg); }
-			100% { transform: rotate(18deg); }
+			0%, 55% { transform: rotate(20deg); }
+			65% { transform: rotate(48deg); }
+			80% { transform: rotate(20deg); }
+			100% { transform: rotate(20deg); }
 		}
 
 		.arm-back {
-			transform-origin: 50% 30%;
+			transform-origin: 50% 32%;
 			will-change: transform;
 		}
 
 		.short-turns .arm-back {
-			animation: arm-back-short 1.2s ease-in-out infinite reverse;
+			animation: arm-back-short 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite reverse;
 		}
 
 		.carving .arm-back {
-			animation: arm-back-carving 4.2s ease-in-out infinite reverse;
+			animation: arm-back-carving 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite reverse;
 		}
 
 		.medium-turns .arm-back {
-			animation: arm-back-medium 2.4s ease-in-out infinite reverse;
+			animation: arm-back-medium 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite reverse;
 		}
 
 		@keyframes arm-back-short {
-			0%, 60% { transform: rotate(-18deg); }
-			70% { transform: rotate(-55deg); }
-			85% { transform: rotate(-18deg); }
-			100% { transform: rotate(-18deg); }
+			0%, 55% { transform: rotate(-20deg); }
+			65% { transform: rotate(-60deg); }
+			80% { transform: rotate(-20deg); }
+			100% { transform: rotate(-20deg); }
 		}
 
 		@keyframes arm-back-medium {
-			0%, 60% { transform: rotate(-18deg); }
-			70% { transform: rotate(-50deg); }
-			85% { transform: rotate(-18deg); }
-			100% { transform: rotate(-18deg); }
+			0%, 55% { transform: rotate(-20deg); }
+			65% { transform: rotate(-54deg); }
+			80% { transform: rotate(-20deg); }
+			100% { transform: rotate(-20deg); }
 		}
 
 		@keyframes arm-back-carving {
-			0%, 60% { transform: rotate(-18deg); }
-			70% { transform: rotate(-45deg); }
-			85% { transform: rotate(-18deg); }
-			100% { transform: rotate(-18deg); }
+			0%, 55% { transform: rotate(-20deg); }
+			65% { transform: rotate(-48deg); }
+			80% { transform: rotate(-20deg); }
+			100% { transform: rotate(-20deg); }
 		}
 
-		/* Scarf flutter */
+		/* Scarf flutter with wind simulation */
 		.scarf {
-			transform-origin: 45% 38%;
+			transform-origin: 48% 38%;
 			will-change: transform;
-			animation: scarf-flutter 0.8s ease-in-out infinite alternate;
+			animation: scarf-flutter 0.9s ease-in-out infinite alternate;
 		}
 
 		@keyframes scarf-flutter {
-			from { transform: rotate(0deg) translateX(0); }
-			to { transform: rotate(-12deg) translateX(2px); }
+			from { transform: rotate(0deg) translateX(0) translateY(-1px); }
+			to { transform: rotate(-16deg) translateX(3px) translateY(2px); }
 		}
 
 		/* Snow spray */
@@ -491,7 +667,7 @@
 		}
 
 		.carving .spray {
-			animation: spray-pulse 2.1s ease-in-out infinite;
+			animation: spray-pulse 2.2s ease-in-out infinite;
 		}
 
 		.medium-turns .spray {
@@ -499,32 +675,54 @@
 		}
 
 		@keyframes spray-pulse {
-			0%, 30% { transform: scaleX(1) scaleY(1) opacity(0.8); }
-			50% { transform: scaleX(1.3) scaleY(0.9) opacity(1); }
-			100% { transform: scaleX(0.8) scaleY(1) opacity(0.7); }
+			0%, 25% { transform: scaleX(0.9) scaleY(1.1); opacity: 0.7; }
+			50% { transform: scaleX(1.4) scaleY(0.85); opacity: 1; }
+			100% { transform: scaleX(0.7) scaleY(1); opacity: 0.6; }
 		}
 
-		/* Subtle head tilt */
+		/* Head tilt and look direction */
 		.head {
 			will-change: transform;
 		}
 
 		.short-turns .head {
-			animation: head-tilt 1.2s ease-in-out infinite;
+			animation: head-tilt 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 		}
 
 		.carving .head {
-			animation: head-tilt 4.2s ease-in-out infinite;
+			animation: head-tilt 4.4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 		}
 
 		.medium-turns .head {
-			animation: head-tilt 2.4s ease-in-out infinite;
+			animation: head-tilt 2.4s cubic-bezier(0.43, 0.13, 0.57, 0.87) infinite;
 		}
 
 		@keyframes head-tilt {
-			0%, 50%, 100% { transform: rotate(0deg); }
-			25% { transform: rotate(8deg); }
-			75% { transform: rotate(-8deg); }
+			0%, 50%, 100% { transform: rotate(0deg) translateY(0); }
+			25% { transform: rotate(10deg) translateY(-1px); }
+			75% { transform: rotate(-10deg) translateY(-1px); }
+		}
+
+		/* Goggle glint */
+		.goggle-shine {
+			will-change: opacity;
+		}
+
+		.short-turns .goggle-shine {
+			animation: glint 1.2s ease-in-out infinite;
+		}
+
+		.carving .goggle-shine {
+			animation: glint 4.4s ease-in-out infinite;
+		}
+
+		.medium-turns .goggle-shine {
+			animation: glint 2.4s ease-in-out infinite;
+		}
+
+		@keyframes glint {
+			0%, 30%, 70%, 100% { opacity: 0.4; }
+			50% { opacity: 1; }
 		}
 
 	</style>
@@ -533,139 +731,166 @@
 	<div class="scene">
 		<div class="stars"></div>
 		<div class="sun"></div>
+		<div class="rays"></div>
+		<div class="haze"></div>
 
 		<!-- Far mountains (lavender, hazy) -->
 		<svg class="mountains far" viewBox="0 0 1600 300" preserveAspectRatio="none">
 			<defs>
 				<linearGradient id="gradFar" x1="0" x2="0" y1="0" y2="1">
-					<stop offset="0%" stop-color="#c4a8dd"/>
-					<stop offset="100%" stop-color="#6b5a8f"/>
+					<stop offset="0%" stop-color="#d4b5e0"/>
+					<stop offset="60%" stop-color="#9080a8"/>
+					<stop offset="100%" stop-color="#5a5a7a"/>
 				</linearGradient>
 				<linearGradient id="snowFar" x1="0" x2="0" y1="0" y2="1">
 					<stop offset="0%" stop-color="#ffffff"/>
-					<stop offset="100%" stop-color="#e8dff8"/>
+					<stop offset="100%" stop-color="#f0e8ff"/>
 				</linearGradient>
 			</defs>
-			<path fill="url(#gradFar)" d="M0,300 L0,220 L140,140 L240,180 L360,90 L520,160 L680,110 L820,170 L940,120 L1080,190 L1200,140 L1360,180 L1600,130 L1600,300 Z"/>
-			<path fill="url(#snowFar)" opacity="0.6" d="M140,140 L240,180 L180,160 L140,140 M360,90 L520,160 L440,120 L360,90 M680,110 L820,170 L750,140 L680,110 M940,120 L1080,190 L1010,155 L940,120 M1200,140 L1360,180 L1280,160 L1200,140"/>
+			<path fill="url(#gradFar)" d="M0,300 L0,220 L140,130 L240,175 L360,75 L520,160 L680,95 L820,170 L940,105 L1080,190 L1200,130 L1360,175 L1600,110 L1600,300 Z"/>
+			<path fill="url(#snowFar)" opacity="0.55" d="M140,130 L240,175 L180,155 L140,130 M360,75 L520,160 L440,115 L360,75 M680,95 L820,170 L750,130 L680,95 M940,105 L1080,190 L1010,145 L940,105 M1200,130 L1360,175 L1280,152 L1200,130"/>
 		</svg>
 
 		<!-- Mid mountains (purple, clearer) -->
 		<svg class="mountains mid" viewBox="0 0 1600 300" preserveAspectRatio="none">
 			<defs>
 				<linearGradient id="gradMid" x1="0" x2="0" y1="0" y2="1">
-					<stop offset="0%" stop-color="#5a4a8a"/>
+					<stop offset="0%" stop-color="#7a5a9a"/>
+					<stop offset="50%" stop-color="#5a3a7a"/>
 					<stop offset="100%" stop-color="#3a2a5a"/>
 				</linearGradient>
 				<linearGradient id="snowMid" x1="0" x2="0" y1="0" y2="1">
 					<stop offset="0%" stop-color="#ffffff"/>
-					<stop offset="100%" stop-color="#f0e8f8"/>
+					<stop offset="100%" stop-color="#f2eaff"/>
 				</linearGradient>
 			</defs>
-			<path fill="url(#gradMid)" d="M0,300 L0,200 L120,100 L280,140 L420,70 L580,130 L740,95 L900,155 L1040,110 L1200,170 L1360,125 L1600,175 L1600,300 Z"/>
-			<path fill="url(#snowMid)" opacity="0.5" d="M120,100 L280,140 L200,120 L120,100 M420,70 L580,130 L500,100 L420,70 M740,95 L900,155 L820,125 L740,95 M1040,110 L1200,170 L1120,140 L1040,110"/>
+			<path fill="url(#gradMid)" d="M0,300 L0,190 L120,90 L280,135 L420,60 L580,125 L740,85 L900,150 L1040,100 L1200,165 L1360,115 L1600,170 L1600,300 Z"/>
+			<path fill="url(#snowMid)" opacity="0.5" d="M120,90 L280,135 L200,110 L120,90 M420,60 L580,125 L500,92 L420,60 M740,85 L900,150 L820,115 L740,85 M1040,100 L1200,165 L1120,130 L1040,100"/>
 		</svg>
 
-		<!-- Near mountains (dark blue, crisp) -->
+		<!-- Near mountains (dark silhouettes) -->
 		<svg class="mountains near" viewBox="0 0 1600 300" preserveAspectRatio="none">
 			<defs>
 				<linearGradient id="gradNear" x1="0" x2="0" y1="0" y2="1">
-					<stop offset="0%" stop-color="#1a3a6a"/>
+					<stop offset="0%" stop-color="#2a4a7a"/>
 					<stop offset="100%" stop-color="#0a1a3a"/>
 				</linearGradient>
 				<linearGradient id="snowNear" x1="0" x2="0" y1="0" y2="1">
 					<stop offset="0%" stop-color="#ffffff"/>
-					<stop offset="100%" stop-color="#f8f8ff"/>
+					<stop offset="100%" stop-color="#f9f9ff"/>
 				</linearGradient>
 			</defs>
-			<path fill="url(#gradNear)" d="M0,300 L0,160 L100,80 L260,120 L380,40 L540,110 L680,75 L840,140 L960,90 L1120,155 L1280,110 L1450,160 L1600,120 L1600,300 Z"/>
-			<path fill="url(#snowNear)" opacity="0.4" d="M100,80 L260,120 L180,100 L100,80 M380,40 L540,110 L460,75 L380,40 M680,75 L840,140 L760,107 L680,75 M960,90 L1120,155 L1040,122 L960,90"/>
+			<path fill="url(#gradNear)" d="M0,300 L0,150 L100,70 L260,115 L380,35 L540,105 L680,70 L840,135 L960,85 L1120,150 L1280,105 L1450,155 L1600,115 L1600,300 Z"/>
+			<path fill="url(#snowNear)" opacity="0.42" d="M100,70 L260,115 L180,92 L100,70 M380,35 L540,105 L460,70 L380,35 M680,70 L840,135 L760,102 L680,70 M960,85 L1120,150 L1040,117 L960,85"/>
 		</svg>
 
 		<!-- Pine forest silhouette -->
 		<svg class="forest" viewBox="0 0 1600 300" preserveAspectRatio="none">
 			<defs>
 				<linearGradient id="treeFade" x1="0" x2="0" y1="0" y2="1">
-					<stop offset="0%" stop-color="#0a2a3a"/>
+					<stop offset="0%" stop-color="#1a3a5a"/>
 					<stop offset="100%" stop-color="#050a15"/>
 				</linearGradient>
 			</defs>
-			<path fill="url(#treeFade)" d="M0,300 L0,100 L15,80 L10,100 L25,65 L20,100 L40,70 L35,100 L55,60 L50,100 L70,75 L65,100 L85,55 L80,100 L100,75 L95,100 L115,60 L110,100 L130,70 L125,100 L150,65 L145,100 L165,75 L160,100 L180,60 L175,100 L200,70 L195,100 L220,65 L215,100 L240,75 L235,100 L260,55 L255,100 L280,70 L275,100 L300,65 L295,100 L320,75 L315,100 L340,60 L335,100 L360,70 L355,100 L380,65 L375,100 L400,75 L395,100 L420,60 L415,100 L440,70 L435,100 L460,65 L455,100 L480,75 L475,100 L500,55 L495,100 L520,70 L515,100 L540,65 L535,100 L560,75 L555,100 L580,60 L575,100 L600,70 L595,100 L620,65 L615,100 L640,75 L635,100 L660,60 L655,100 L680,70 L675,100 L700,65 L695,100 L720,75 L715,100 L740,55 L735,100 L760,70 L755,100 L780,65 L775,100 L800,75 L795,100 L820,60 L815,100 L840,70 L835,100 L860,65 L855,100 L880,75 L875,100 L900,60 L895,100 L920,70 L915,100 L940,65 L935,100 L960,75 L955,100 L980,55 L975,100 L1000,70 L995,100 L1020,65 L1015,100 L1040,75 L1035,100 L1060,60 L1055,100 L1080,70 L1075,100 L1100,65 L1095,100 L1120,75 L1115,100 L1140,60 L1135,100 L1160,70 L1155,100 L1180,65 L1175,100 L1200,75 L1195,100 L1220,55 L1215,100 L1240,70 L1235,100 L1260,65 L1255,100 L1280,75 L1275,100 L1300,60 L1295,100 L1320,70 L1315,100 L1340,65 L1335,100 L1360,75 L1355,100 L1380,60 L1375,100 L1400,70 L1395,100 L1420,65 L1415,100 L1450,75 L1445,100 L1480,60 L1475,100 L1520,70 L1515,100 L1550,65 L1545,100 L1600,80 L1600,300 Z"/>
+			<path fill="url(#treeFade)" d="M0,300 L0,95 L12,75 L8,95 L22,60 L18,95 L36,65 L32,95 L50,55 L46,95 L68,70 L64,95 L82,50 L78,95 L96,70 L92,95 L110,55 L106,95 L128,65 L124,95 L146,50 L142,95 L160,70 L156,95 L176,55 L172,95 L194,65 L190,95 L212,50 L208,95 L230,65 L226,95 L248,55 L244,95 L266,65 L262,95 L284,50 L280,95 L302,65 L298,95 L320,55 L316,95 L338,70 L334,95 L356,50 L352,95 L374,65 L370,95 L392,55 L388,95 L410,70 L406,95 L428,50 L424,95 L446,65 L442,95 L464,55 L460,95 L482,70 L478,95 L500,50 L496,95 L518,65 L514,95 L536,55 L532,95 L554,70 L550,95 L572,50 L568,95 L590,65 L586,95 L608,55 L604,95 L626,70 L622,95 L644,50 L640,95 L662,65 L658,95 L680,55 L676,95 L698,70 L694,95 L716,50 L712,95 L734,65 L730,95 L752,55 L748,95 L770,70 L766,95 L788,50 L784,95 L806,65 L802,95 L824,55 L820,95 L842,70 L838,95 L860,50 L856,95 L878,65 L874,95 L896,55 L892,95 L914,70 L910,95 L932,50 L928,95 L950,65 L946,95 L968,55 L964,95 L986,70 L982,95 L1004,50 L1000,95 L1022,65 L1018,95 L1040,55 L1036,95 L1058,70 L1054,95 L1076,50 L1072,95 L1094,65 L1090,95 L1112,55 L1108,95 L1130,70 L1126,95 L1148,50 L1144,95 L1166,65 L1162,95 L1184,55 L1180,95 L1202,70 L1198,95 L1220,50 L1216,95 L1238,65 L1234,95 L1256,55 L1252,95 L1274,70 L1270,95 L1292,50 L1288,95 L1310,65 L1306,95 L1328,55 L1324,95 L1346,70 L1342,95 L1364,50 L1360,95 L1382,65 L1378,95 L1400,55 L1396,95 L1418,70 L1414,95 L1440,50 L1436,95 L1480,65 L1476,95 L1510,50 L1506,95 L1550,70 L1546,95 L1600,75 L1600,300 Z"/>
 		</svg>
 
 		<!-- Snow and slope -->
 		<div class="slope">
 			<div class="flags">
-				<div class="flag" style="left: 25%; top: 8%;"></div>
-				<div class="flag blue" style="left: 55%; top: 18%;"></div>
-				<div class="flag" style="left: 15%; top: 28%;"></div>
-				<div class="flag blue" style="left: 70%; top: 38%;"></div>
-				<div class="flag" style="left: 30%; top: 48%;"></div>
-				<div class="flag blue" style="left: 60%; top: 58%;"></div>
-				<div class="flag" style="left: 20%; top: 68%;"></div>
-				<div class="flag blue" style="left: 75%; top: 78%;"></div>
+				<div class="flag" style="left: 22%; top: 6%;"></div>
+				<div class="flag blue" style="left: 58%; top: 16%;"></div>
+				<div class="flag" style="left: 12%; top: 26%;"></div>
+				<div class="flag blue" style="left: 72%; top: 36%;"></div>
+				<div class="flag" style="left: 28%; top: 46%;"></div>
+				<div class="flag blue" style="left: 62%; top: 56%;"></div>
+				<div class="flag" style="left: 18%; top: 66%;"></div>
+				<div class="flag blue" style="left: 78%; top: 76%;"></div>
 			</div>
 
 			<!-- Skier 1: red jacket, short turns -->
 			<div class="traveler s1">
 				<div class="turn short-turns">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-30 0 60 110" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<!-- Snow spray -->
-							<ellipse class="spray" cx="0" cy="95" rx="18" ry="4" fill="white" opacity="0.75"/>
+						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<!-- Snow spray behind -->
+							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
 
-							<!-- Skis -->
+							<!-- Skis with edge reflection -->
+							<defs>
+								<filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/></filter>
+								<linearGradient id="skiGrad1" x1="0" x2="0" y1="0" y2="1">
+									<stop offset="0%" stop-color="#fff5d6"/>
+									<stop offset="50%" stop-color="#ffd166"/>
+									<stop offset="100%" stop-color="#ffaa33"/>
+								</linearGradient>
+							</defs>
 							<g class="skis">
-								<ellipse cx="-16" cy="88" rx="20" ry="2.5" fill="#ffd166"/>
-								<ellipse cx="16" cy="90" rx="20" ry="2.5" fill="#ffd166"/>
+								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="url(#skiGrad1)" opacity="0.95"/>
+								<ellipse cx="18" cy="106" rx="22" ry="3" fill="url(#skiGrad1)" opacity="0.95"/>
+								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
+								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
 							</g>
 
 							<!-- Boots -->
-							<rect x="-19" y="85" width="13" height="6" fill="#3a2a1a" rx="2"/>
-							<rect x="6" y="87" width="13" height="6" fill="#3a2a1a" rx="2"/>
+							<rect x="-22" y="98" width="16" height="8" fill="#3a2a1a" rx="2" filter="url(#blur)"/>
+							<rect x="6" y="101" width="16" height="8" fill="#3a2a1a" rx="2" filter="url(#blur)"/>
 
-							<!-- Back leg -->
+							<!-- Back leg (shadow) -->
 							<g class="leg leg-back">
-								<path d="M-8,62 L-10,82 Q-10,86 -6,88 L-6,88 Q-4,86 -4,82 L-2,62 Z" fill="#1d3557"/>
+								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 
-							<!-- Front leg -->
+							<!-- Front leg (shadow) -->
 							<g class="leg leg-front">
-								<path d="M8,62 L6,82 Q6,86 10,88 L10,88 Q12,86 12,82 L14,62 Z" fill="#1d3557"/>
+								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 
 							<!-- Torso (jacket) -->
 							<g class="torso">
-								<path d="M-11,38 Q-11,40 -9,42 L9,42 Q11,40 11,38 L12,68 Q12,71 9,72 L-9,72 Q-12,71 -12,68 Z" fill="var(--jacket-light)"/>
-								<path d="M-1,42 L1,42 L1,68 L-1,68 Z" fill="rgba(0,0,0,0.1)" opacity="0.5"/>
+								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
+								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
+								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.4" rx="1"/>
 							</g>
 
 							<!-- Back arm + pole -->
 							<g class="arm arm-back">
-								<path d="M-11,45 L-16,56 Q-17,58 -15,59 L-13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-15" y1="48" x2="-18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="-18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 
 							<!-- Front arm + pole -->
 							<g class="arm arm-front">
-								<path d="M11,45 L16,56 Q17,58 15,59 L13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="15" y1="48" x2="18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 
-							<!-- Head -->
+							<!-- Head and helmet -->
 							<g class="head">
-								<circle cx="0" cy="30" r="8" fill="var(--helmet)"/>
-								<circle cx="0" cy="31" r="5.5" fill="#f4c9a0"/>
-								<rect x="-7" y="28" width="14" height="5" fill="#1a1a1a" rx="1"/>
-								<rect x="-5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<rect x="1.5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<path d="M-2,35 Q0,37 2,35" fill="#d4956f"/>
+								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
+								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
+								<!-- Goggles -->
+								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
+								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<!-- Face -->
+								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
+								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<!-- Helmet edge -->
+								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
 							</g>
 
 							<!-- Scarf -->
-							<path class="scarf" d="M-4,40 Q-8,44 -10,50" stroke="var(--jacket-dark)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
 						</svg>
 					</div>
 				</div>
@@ -675,43 +900,55 @@
 			<div class="traveler s2">
 				<div class="turn carving">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-30 0 60 110" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="95" rx="18" ry="4" fill="white" opacity="0.75"/>
+						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
 							<g class="skis">
-								<ellipse cx="-16" cy="88" rx="20" ry="2.5" fill="#e8c547"/>
-								<ellipse cx="16" cy="90" rx="20" ry="2.5" fill="#e8c547"/>
+								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#fff5d6" opacity="0.95"/>
+								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#fff5d6" opacity="0.95"/>
+								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
+								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
 							</g>
-							<rect x="-19" y="85" width="13" height="6" fill="#2a1a0a" rx="2"/>
-							<rect x="6" y="87" width="13" height="6" fill="#2a1a0a" rx="2"/>
+							<rect x="-22" y="98" width="16" height="8" fill="#2a1f10" rx="2" filter="url(#blur)"/>
+							<rect x="6" y="101" width="16" height="8" fill="#2a1f10" rx="2" filter="url(#blur)"/>
 							<g class="leg leg-back">
-								<path d="M-8,62 L-10,82 Q-10,86 -6,88 L-6,88 Q-4,86 -4,82 L-2,62 Z" fill="#1d3557"/>
+								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="leg leg-front">
-								<path d="M8,62 L6,82 Q6,86 10,88 L10,88 Q12,86 12,82 L14,62 Z" fill="#1d3557"/>
+								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="torso">
-								<path d="M-11,38 Q-11,40 -9,42 L9,42 Q11,40 11,38 L12,68 Q12,71 9,72 L-9,72 Q-12,71 -12,68 Z" fill="var(--jacket-light)"/>
-								<path d="M-1,42 L1,42 L1,68 L-1,68 Z" fill="rgba(0,0,0,0.1)" opacity="0.5"/>
+								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
+								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.35" rx="1"/>
 							</g>
 							<g class="arm arm-back">
-								<path d="M-11,45 L-16,56 Q-17,58 -15,59 L-13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-15" y1="48" x2="-18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="-18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="arm arm-front">
-								<path d="M11,45 L16,56 Q17,58 15,59 L13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="15" y1="48" x2="18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="head">
-								<circle cx="0" cy="30" r="8" fill="var(--helmet)"/>
-								<circle cx="0" cy="31" r="5.5" fill="#f4c9a0"/>
-								<rect x="-7" y="28" width="14" height="5" fill="#1a1a1a" rx="1"/>
-								<rect x="-5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<rect x="1.5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<path d="M-2,35 Q0,37 2,35" fill="#d4956f"/>
+								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
+								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
+								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
+								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
+								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
 							</g>
-							<path class="scarf" d="M-4,40 Q-8,44 -10,50" stroke="var(--jacket-dark)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
 						</svg>
 					</div>
 				</div>
@@ -721,43 +958,55 @@
 			<div class="traveler s3">
 				<div class="turn medium-turns">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-30 0 60 110" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="95" rx="18" ry="4" fill="white" opacity="0.75"/>
+						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
 							<g class="skis">
-								<ellipse cx="-16" cy="88" rx="20" ry="2.5" fill="#5eb3d6"/>
-								<ellipse cx="16" cy="90" rx="20" ry="2.5" fill="#5eb3d6"/>
+								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#7ed0ff" opacity="0.95"/>
+								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#7ed0ff" opacity="0.95"/>
+								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
+								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
 							</g>
-							<rect x="-19" y="85" width="13" height="6" fill="#0a1a2a" rx="2"/>
-							<rect x="6" y="87" width="13" height="6" fill="#0a1a2a" rx="2"/>
+							<rect x="-22" y="98" width="16" height="8" fill="#0a1620" rx="2" filter="url(#blur)"/>
+							<rect x="6" y="101" width="16" height="8" fill="#0a1620" rx="2" filter="url(#blur)"/>
 							<g class="leg leg-back">
-								<path d="M-8,62 L-10,82 Q-10,86 -6,88 L-6,88 Q-4,86 -4,82 L-2,62 Z" fill="#1d3557"/>
+								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="leg leg-front">
-								<path d="M8,62 L6,82 Q6,86 10,88 L10,88 Q12,86 12,82 L14,62 Z" fill="#1d3557"/>
+								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="torso">
-								<path d="M-11,38 Q-11,40 -9,42 L9,42 Q11,40 11,38 L12,68 Q12,71 9,72 L-9,72 Q-12,71 -12,68 Z" fill="var(--jacket-light)"/>
-								<path d="M-1,42 L1,42 L1,68 L-1,68 Z" fill="rgba(0,0,0,0.1)" opacity="0.5"/>
+								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
+								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.35" rx="1"/>
 							</g>
 							<g class="arm arm-back">
-								<path d="M-11,45 L-16,56 Q-17,58 -15,59 L-13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-15" y1="48" x2="-18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="-18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="arm arm-front">
-								<path d="M11,45 L16,56 Q17,58 15,59 L13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="15" y1="48" x2="18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="head">
-								<circle cx="0" cy="30" r="8" fill="var(--helmet)"/>
-								<circle cx="0" cy="31" r="5.5" fill="#f4c9a0"/>
-								<rect x="-7" y="28" width="14" height="5" fill="#1a1a1a" rx="1"/>
-								<rect x="-5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<rect x="1.5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<path d="M-2,35 Q0,37 2,35" fill="#d4956f"/>
+								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
+								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
+								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
+								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
+								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
 							</g>
-							<path class="scarf" d="M-4,40 Q-8,44 -10,50" stroke="var(--jacket-dark)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
 						</svg>
 					</div>
 				</div>
@@ -767,43 +1016,55 @@
 			<div class="traveler s4">
 				<div class="turn short-turns">
 					<div class="absorb">
-						<svg class="skier-svg" viewBox="-30 0 60 110" preserveAspectRatio="xMidYMid meet" overflow="visible">
-							<ellipse class="spray" cx="0" cy="95" rx="18" ry="4" fill="white" opacity="0.75"/>
+						<svg class="skier-svg" viewBox="-32 0 64 130" preserveAspectRatio="xMidYMid meet" overflow="visible">
+							<ellipse class="spray" cx="0" cy="110" rx="22" ry="5" fill="white" opacity="0.8" filter="url(#blur)"/>
 							<g class="skis">
-								<ellipse cx="-16" cy="88" rx="20" ry="2.5" fill="#d0d0ff"/>
-								<ellipse cx="16" cy="90" rx="20" ry="2.5" fill="#d0d0ff"/>
+								<ellipse cx="-18" cy="103" rx="22" ry="3" fill="#e8ecff" opacity="0.95"/>
+								<ellipse cx="18" cy="106" rx="22" ry="3" fill="#e8ecff" opacity="0.95"/>
+								<ellipse cx="-18" cy="102.5" rx="18" ry="1" fill="rgba(255,255,255,0.4)"/>
+								<ellipse cx="18" cy="105.5" rx="18" ry="1" fill="rgba(255,255,255,0.3)"/>
 							</g>
-							<rect x="-19" y="85" width="13" height="6" fill="#1a1a2a" rx="2"/>
-							<rect x="6" y="87" width="13" height="6" fill="#1a1a2a" rx="2"/>
+							<rect x="-22" y="98" width="16" height="8" fill="#0f1420" rx="2" filter="url(#blur)"/>
+							<rect x="6" y="101" width="16" height="8" fill="#0f1420" rx="2" filter="url(#blur)"/>
 							<g class="leg leg-back">
-								<path d="M-8,62 L-10,82 Q-10,86 -6,88 L-6,88 Q-4,86 -4,82 L-2,62 Z" fill="#1d3557"/>
+								<path d="M-10,68 L-12,92 Q-12,98 -6,102 L-6,102 Q-2,98 -2,92 L0,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="-6" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="leg leg-front">
-								<path d="M8,62 L6,82 Q6,86 10,88 L10,88 Q12,86 12,82 L14,62 Z" fill="#1d3557"/>
+								<path d="M10,68 L8,92 Q8,98 12,102 L12,102 Q16,98 16,92 L18,68 Z" fill="#1d3557" opacity="0.9"/>
+								<ellipse cx="12" cy="82" rx="5.5" ry="7" fill="rgba(0,0,0,0.15)"/>
 							</g>
 							<g class="torso">
-								<path d="M-11,38 Q-11,40 -9,42 L9,42 Q11,40 11,38 L12,68 Q12,71 9,72 L-9,72 Q-12,71 -12,68 Z" fill="var(--jacket-light)"/>
-								<path d="M-1,42 L1,42 L1,68 L-1,68 Z" fill="rgba(0,0,0,0.1)" opacity="0.5"/>
+								<path d="M-13,45 Q-13,48 -10,50 L10,50 Q13,48 13,45 L14,78 Q14,82 10,83 L-10,83 Q-14,82 -14,78 Z" fill="var(--jacket-light)"/>
+								<path d="M0,50 L0,78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+								<rect x="-8" y="55" width="16" height="3" fill="var(--accent)" opacity="0.25" rx="1"/>
 							</g>
 							<g class="arm arm-back">
-								<path d="M-11,45 L-16,56 Q-17,58 -15,59 L-13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="-15" y1="48" x2="-18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="-18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="-15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M-15,50 L-22,65 Q-23,67 -20,68 L-15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="-20" y1="56" x2="-24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="-24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="-24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="arm arm-front">
-								<path d="M11,45 L16,56 Q17,58 15,59 L13,47 Z" fill="var(--jacket-light)"/>
-								<line class="pole-shaft" x1="15" y1="48" x2="18" y2="68" stroke="#4a4a4a" stroke-width="1.5" stroke-linecap="round"/>
-								<circle cx="18" cy="70" r="2" fill="#888"/>
+								<ellipse cx="15" cy="56" rx="4.5" ry="8" fill="var(--jacket-light)"/>
+								<path d="M15,50 L22,65 Q23,67 20,68 L15,58 Z" fill="var(--jacket-light)"/>
+								<line class="pole-shaft" x1="20" y1="56" x2="24" y2="82" stroke="#5a4a3a" stroke-width="1.8" stroke-linecap="round"/>
+								<circle cx="24" cy="84" r="2.5" fill="#a0a0a0"/>
+								<ellipse cx="24" cy="78" rx="3.5" ry="2" fill="#d0d0d0" opacity="0.6"/>
 							</g>
 							<g class="head">
-								<circle cx="0" cy="30" r="8" fill="var(--helmet)"/>
-								<circle cx="0" cy="31" r="5.5" fill="#f4c9a0"/>
-								<rect x="-7" y="28" width="14" height="5" fill="#1a1a1a" rx="1"/>
-								<rect x="-5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<rect x="1.5" y="29" width="3.5" height="2" fill="#4da6ff" opacity="0.7"/>
-								<path d="M-2,35 Q0,37 2,35" fill="#d4956f"/>
+								<circle cx="0" cy="36" r="9.5" fill="var(--helmet)"/>
+								<circle cx="0" cy="37" r="6" fill="#f4c9a0"/>
+								<rect x="-9" y="33" width="18" height="6" fill="#1a1a1a" rx="2" filter="url(#blur)"/>
+								<rect x="-8" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<rect x="3.5" y="34" width="4.5" height="3" fill="#4da6ff" opacity="0.75" rx="0.5" class="goggle-shine"/>
+								<path d="M-3,40 Q0,43 3,40" fill="#d4956f" stroke="var(--jacket-dark)" stroke-width="0.5"/>
+								<circle cx="-2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<circle cx="2" cy="38" r="0.8" fill="#3a2a1a" opacity="0.6"/>
+								<path d="M-9.5,33 Q-10,30 -6,28 Q0,27 6,28 Q10,30 9.5,33" stroke="var(--helmet)" stroke-width="1" fill="none"/>
 							</g>
-							<path class="scarf" d="M-4,40 Q-8,44 -10,50" stroke="var(--jacket-dark)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+							<path class="scarf" d="M-5,45 Q-10,52 -14,62" stroke="var(--jacket-dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
 						</svg>
 					</div>
 				</div>
