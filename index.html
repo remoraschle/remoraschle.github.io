@@ -775,14 +775,27 @@
 		.scarf {
 			transform-origin: 48% 38%;
 			will-change: transform;
-			animation: scarf-flutter 0.9s ease-in-out infinite alternate;
+		}
+
+		.short-turns .scarf {
+			animation: scarf-flutter 1.2s ease-in-out infinite;
+		}
+
+		.carving .scarf {
+			animation: scarf-flutter 4.4s ease-in-out infinite;
+		}
+
+		.medium-turns .scarf {
+			animation: scarf-flutter 2.4s ease-in-out infinite;
 		}
 
 		@keyframes scarf-flutter {
 			0%   { transform: rotate(0deg) translateX(0) translateY(-1px); }
-			25%  { transform: rotate(-6deg) translateX(1px) translateY(0px); }
-			50%  { transform: rotate(-12deg) translateX(2px) translateY(1px); }
-			75%  { transform: rotate(-8deg) translateX(2.5px) translateY(1.5px); }
+			20%  { transform: rotate(-4deg) translateX(1px) translateY(0px); }
+			40%  { transform: rotate(-10deg) translateX(2px) translateY(1px); }
+			50%  { transform: rotate(-12deg) translateX(2.2px) translateY(1.2px); }
+			60%  { transform: rotate(-8deg) translateX(1.8px) translateY(0.8px); }
+			80%  { transform: rotate(-2deg) translateX(0.5px) translateY(-0.5px); }
 			100% { transform: rotate(0deg) translateX(0) translateY(-1px); }
 		}
 
