@@ -590,6 +590,45 @@
 			animation: short-turns 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
+		/* Per-skier phase shifts so turns don't all peak in unison.
+		   Delay applies to every per-cycle animation inside the skier so
+		   absorb / scarf / head / arms / spray stay coordinated. */
+		.s1 .turn,
+		.s1 .absorb,
+		.s1 .scarf,
+		.s1 .head,
+		.s1 .arm-front,
+		.s1 .arm-back,
+		.s1 .spray,
+		.s1 .goggle-shine { animation-delay: -0.3s; }
+
+		.s2 .turn,
+		.s2 .absorb,
+		.s2 .scarf,
+		.s2 .head,
+		.s2 .arm-front,
+		.s2 .arm-back,
+		.s2 .spray,
+		.s2 .goggle-shine { animation-delay: -1.7s; }
+
+		.s3 .turn,
+		.s3 .absorb,
+		.s3 .scarf,
+		.s3 .head,
+		.s3 .arm-front,
+		.s3 .arm-back,
+		.s3 .spray,
+		.s3 .goggle-shine { animation-delay: -0.9s; }
+
+		.s4 .turn,
+		.s4 .absorb,
+		.s4 .scarf,
+		.s4 .head,
+		.s4 .arm-front,
+		.s4 .arm-back,
+		.s4 .spray,
+		.s4 .goggle-shine { animation-delay: -2.1s; }
+
 		@keyframes short-turns {
 			0%   { transform: translateX(-22px) rotate(-8deg); }
 			12%  { transform: translateX(-11px) rotate(-4deg); }
