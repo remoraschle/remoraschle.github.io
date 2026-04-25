@@ -1107,21 +1107,29 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: two parallel planks, edge visible -->
+							<!-- Skis: long racing skis with curved upturned tips -->
 							<g class="skis">
-								<!-- Left ski -->
-								<path d="M-20,105 L-6,105 Q-2,105 -2,108 Q-2,111 -8,111 L-24,111 Q-26,110 -26,107 Q-26,105 -20,105 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="-22" y1="108" x2="-2" y2="108" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="-12" y="100" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward (down-slope) -->
+								<path d="M-30,103 Q-32,101 -30,105 Q-28,107 -22,107 L4,108 Q8,108 8,109.5 Q8,111 4,111 L-22,110 Q-28,110 -30,108 Q-32,107 -30,103 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="108" x2="6" y2="108.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail (front upturn) -->
+								<path d="M-30,103 Q-32,102 -31,105 L-28,106 Q-29,104 -30,103 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="100" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="100.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
-								<!-- Right ski -->
-								<path d="M6,107 L20,107 Q26,107 26,109 Q26,112 22,112 L8,112 Q2,112 2,109 Q2,107 6,107 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="2" y1="109.5" x2="24" y2="109.5" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="4" y="102" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,109 L24,108 Q30,108 32,106 Q33,103 31,105 Q29,107 24,107 L-4,108 Q-8,108 -8,109.5 Q-8,111 -4,111 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="109" x2="28" y2="108" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail (front upturn) -->
+								<path d="M32,106 Q33,103 31,105 L28,107 Q30,107 32,106 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="102" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="102.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
 
 							<!-- Shins/Lower legs: aggressively bent, weight forward -->
@@ -1183,10 +1191,12 @@
 								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="-10" y1="66" x2="-12" y2="102" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="-12" cy="101" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Front arm + pole: glued to body in tuck -->
@@ -1197,10 +1207,12 @@
 								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="10" y1="67" x2="12" y2="103" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="12" cy="102" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Head: low, forward-focused in tuck -->
@@ -1237,21 +1249,29 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: two parallel planks, edge visible -->
+							<!-- Skis: long racing skis with curved upturned tips -->
 							<g class="skis">
-								<!-- Left ski -->
-								<path d="M-20,100 L-6,100 Q-2,100 -2,103 Q-2,106 -8,106 L-24,106 Q-26,105 -26,102 Q-26,100 -20,100 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="-22" y1="103" x2="-2" y2="103" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="-12" y="95" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward -->
+								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M-30,98 Q-32,97 -31,100 L-28,101 Q-29,99 -30,98 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
-								<!-- Right ski -->
-								<path d="M6,102 L20,102 Q26,102 26,104 Q26,107 22,107 L8,107 Q2,107 2,104 Q2,102 6,102 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="2" y1="104.5" x2="24" y2="104.5" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="4" y="97" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M32,101 Q33,98 31,100 L28,102 Q30,102 32,101 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="97" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="97.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
 
 							<!-- Thighs: nearly horizontal in aggressive tuck -->
@@ -1313,10 +1333,12 @@
 								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="-10" y1="66" x2="-12" y2="102" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="-12" cy="101" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Front arm + pole: glued to body in tuck -->
@@ -1327,10 +1349,12 @@
 								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="10" y1="67" x2="12" y2="103" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="12" cy="102" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Head: low, forward-focused in tuck -->
@@ -1367,21 +1391,29 @@
 							<!-- Snow spray -->
 							<ellipse class="spray" cx="0" cy="108" rx="24" ry="5" fill="white" opacity="0.82" filter="url(#blur)"/>
 
-							<!-- Skis: two parallel planks, edge visible -->
+							<!-- Skis: long racing skis with curved upturned tips -->
 							<g class="skis">
-								<!-- Left ski -->
-								<path d="M-20,100 L-6,100 Q-2,100 -2,103 Q-2,106 -8,106 L-24,106 Q-26,105 -26,102 Q-26,100 -20,100 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="-22" y1="103" x2="-2" y2="103" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="-12" y="95" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Left ski: long with dramatic upturned tip pointing forward -->
+								<path d="M-30,98 Q-32,96 -30,100 Q-28,102 -22,102 L4,103 Q8,103 8,104.5 Q8,106 4,106 L-22,105 Q-28,105 -30,103 Q-32,102 -30,98 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-26" y1="103" x2="6" y2="103.5" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M-30,98 Q-32,97 -31,100 L-28,101 Q-29,99 -30,98 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="-13" y="95" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="-12.5" y="95.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 
-								<!-- Right ski -->
-								<path d="M6,102 L20,102 Q26,102 26,104 Q26,107 22,107 L8,107 Q2,107 2,104 Q2,102 6,102 Z"
-									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.3" opacity="0.95"/>
-								<line x1="2" y1="104.5" x2="24" y2="104.5" stroke="rgba(255,255,255,0.6)" stroke-width="0.4"/>
-								<!-- Boot -->
-								<rect x="4" y="97" width="8" height="5" fill="#2a1810" rx="0.5"/>
+								<!-- Right ski: long with dramatic upturned tip -->
+								<path d="M-4,104 L24,103 Q30,103 32,101 Q33,98 31,100 Q29,102 24,102 L-4,103 Q-8,103 -8,104.5 Q-8,106 -4,106 Z"
+									fill="var(--ski-color)" stroke="var(--ski-edge)" stroke-width="0.4" opacity="0.95"/>
+								<!-- Top edge highlight -->
+								<line x1="-2" y1="104" x2="28" y2="103" stroke="rgba(255,255,255,0.7)" stroke-width="0.4"/>
+								<!-- Ski tip detail -->
+								<path d="M32,101 Q33,98 31,100 L28,102 Q30,102 32,101 Z" fill="var(--ski-edge)" opacity="0.6"/>
+								<!-- Boot binding -->
+								<rect x="4" y="97" width="9" height="6" fill="#2a1810" rx="0.5" stroke="#1a0e08" stroke-width="0.2"/>
+								<rect x="4.5" y="97.5" width="8" height="2" fill="#3d2818" rx="0.3"/>
 							</g>
 
 							<!-- Thighs: nearly horizontal in aggressive tuck -->
@@ -1443,10 +1475,12 @@
 								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="-10" y1="66" x2="-12" y2="102" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="-12" cy="101" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Front arm + pole: glued to body in tuck -->
@@ -1457,10 +1491,12 @@
 								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
 								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
-								<!-- Pole: nearly vertical -->
-								<line class="pole-shaft" x1="10" y1="67" x2="12" y2="103" stroke="#2a1f10" stroke-width="1.1" stroke-linecap="round"/>
-								<!-- Basket -->
-								<ellipse cx="12" cy="102" rx="1.8" ry="0.6" fill="#888" opacity="0.85"/>
+								<!-- Pole: angled back behind body in tuck (race style) -->
+								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
+								<!-- Pole grip -->
+								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<!-- Basket near tip -->
+								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
 
 							<!-- Head: low, forward-focused in tuck -->
