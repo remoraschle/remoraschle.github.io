@@ -702,31 +702,31 @@
 
 		@keyframes pole-plant-short {
 			0%   { transform: rotate(0deg); }
-			45%  { transform: rotate(0deg); }
-			55%  { transform: rotate(2deg); }
-			60%  { transform: rotate(4deg); }
-			70%  { transform: rotate(2deg); }
-			85%  { transform: rotate(0deg); }
+			30%  { transform: rotate(0deg); }
+			40%  { transform: rotate(2deg); }
+			48%  { transform: rotate(4deg); }
+			56%  { transform: rotate(2deg); }
+			68%  { transform: rotate(0deg); }
 			100% { transform: rotate(0deg); }
 		}
 
 		@keyframes pole-plant-medium {
 			0%   { transform: rotate(0deg); }
-			50%  { transform: rotate(0deg); }
-			60%  { transform: rotate(1.5deg); }
-			65%  { transform: rotate(3deg); }
-			75%  { transform: rotate(1.5deg); }
-			90%  { transform: rotate(0deg); }
+			35%  { transform: rotate(0deg); }
+			42%  { transform: rotate(1.5deg); }
+			48%  { transform: rotate(3deg); }
+			54%  { transform: rotate(1.5deg); }
+			65%  { transform: rotate(0deg); }
 			100% { transform: rotate(0deg); }
 		}
 
 		@keyframes pole-plant-carving {
 			0%   { transform: rotate(0deg); }
-			50%  { transform: rotate(0deg); }
-			58%  { transform: rotate(1deg); }
-			63%  { transform: rotate(2deg); }
-			73%  { transform: rotate(1deg); }
-			90%  { transform: rotate(0deg); }
+			38%  { transform: rotate(0deg); }
+			45%  { transform: rotate(1deg); }
+			50%  { transform: rotate(2deg); }
+			55%  { transform: rotate(1deg); }
+			62%  { transform: rotate(0deg); }
 			100% { transform: rotate(0deg); }
 		}
 
@@ -736,45 +736,48 @@
 		}
 
 		.short-turns .arm-back {
-			animation: arm-back-short 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite reverse;
+			animation: arm-back-short 1.2s cubic-bezier(0.32, 0.12, 0.68, 0.88) infinite;
 		}
 
 		.carving .arm-back {
-			animation: arm-back-carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite reverse;
+			animation: arm-back-carving 4.4s cubic-bezier(0.33, 0.08, 0.67, 0.93) infinite;
 		}
 
 		.medium-turns .arm-back {
-			animation: arm-back-medium 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite reverse;
+			animation: arm-back-medium 2.4s cubic-bezier(0.36, 0.12, 0.64, 0.88) infinite;
 		}
 
 		@keyframes arm-back-short {
-			0%   { transform: rotate(0deg); }
-			45%  { transform: rotate(0deg); }
-			55%  { transform: rotate(-2deg); }
-			60%  { transform: rotate(-4deg); }
-			70%  { transform: rotate(-2deg); }
+			0%   { transform: rotate(-2deg); }
+			6%   { transform: rotate(-4deg); }
+			14%  { transform: rotate(-2deg); }
+			25%  { transform: rotate(0deg); }
 			85%  { transform: rotate(0deg); }
-			100% { transform: rotate(0deg); }
+			92%  { transform: rotate(-2deg); }
+			98%  { transform: rotate(-4deg); }
+			100% { transform: rotate(-2deg); }
 		}
 
 		@keyframes arm-back-medium {
-			0%   { transform: rotate(0deg); }
-			50%  { transform: rotate(0deg); }
-			60%  { transform: rotate(-1.5deg); }
-			65%  { transform: rotate(-3deg); }
-			75%  { transform: rotate(-1.5deg); }
-			90%  { transform: rotate(0deg); }
-			100% { transform: rotate(0deg); }
+			0%   { transform: rotate(-1.5deg); }
+			5%   { transform: rotate(-3deg); }
+			12%  { transform: rotate(-1.5deg); }
+			22%  { transform: rotate(0deg); }
+			88%  { transform: rotate(0deg); }
+			94%  { transform: rotate(-1.5deg); }
+			99%  { transform: rotate(-3deg); }
+			100% { transform: rotate(-1.5deg); }
 		}
 
 		@keyframes arm-back-carving {
-			0%   { transform: rotate(0deg); }
-			50%  { transform: rotate(0deg); }
-			58%  { transform: rotate(-1deg); }
-			63%  { transform: rotate(-2deg); }
-			73%  { transform: rotate(-1deg); }
-			90%  { transform: rotate(0deg); }
-			100% { transform: rotate(0deg); }
+			0%   { transform: rotate(-1deg); }
+			5%   { transform: rotate(-2deg); }
+			10%  { transform: rotate(-1deg); }
+			18%  { transform: rotate(0deg); }
+			88%  { transform: rotate(0deg); }
+			95%  { transform: rotate(-1deg); }
+			99%  { transform: rotate(-2deg); }
+			100% { transform: rotate(-1deg); }
 		}
 
 		/* Scarf flutter with wind simulation */
