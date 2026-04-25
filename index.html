@@ -601,6 +601,7 @@
 		.s1 .arm-back,
 		.s1 .spray,
 		.s1 .goggle-shine { animation-delay: -0.3s; }
+		.s1 .skier-svg { transform: perspective(800px) rotateZ(-6deg) rotateX(2deg); }
 
 		.s2 .turn,
 		.s2 .absorb,
@@ -610,6 +611,7 @@
 		.s2 .arm-back,
 		.s2 .spray,
 		.s2 .goggle-shine { animation-delay: -1.7s; }
+		.s2 .skier-svg { transform: perspective(800px) rotateZ(0deg) rotateY(3deg); }
 
 		.s3 .turn,
 		.s3 .absorb,
@@ -619,6 +621,7 @@
 		.s3 .arm-back,
 		.s3 .spray,
 		.s3 .goggle-shine { animation-delay: -0.9s; }
+		.s3 .skier-svg { transform: perspective(800px) rotateZ(6deg) rotateX(-2deg); }
 
 		.s4 .turn,
 		.s4 .absorb,
@@ -1164,7 +1167,7 @@
 							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
 								<!-- Main torso with forward lean -->
-								<path d="M-10,38 Q-12,45 -8,52 L8,54 Q13,46 12,38 L13,60 Q13,70 2,72 L-14,70 Q-13,60 -13,38 Z"
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
 									fill="var(--jacket-light)"/>
 								<!-- Back/shoulder shading -->
 								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
@@ -1179,22 +1182,22 @@
 
 							<!-- Shoulders: pulled forward in tuck position -->
 							<g class="shoulders">
-								<ellipse cx="-13" cy="40" rx="4" ry="5" fill="var(--jacket-light)"/>
-								<ellipse cx="13" cy="41" rx="4" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
 							</g>
 
 							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
 								<!-- Upper arm close to torso -->
-								<path d="M-13,40 L-15,48 L-12,56 L-10,54 L-10,44 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
@@ -1202,15 +1205,15 @@
 							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
 								<!-- Upper arm close to torso -->
-								<path d="M13,41 L15,49 L12,57 L10,55 L10,45 Z" fill="var(--jacket-light)"/>
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
@@ -1306,7 +1309,7 @@
 							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
 								<!-- Main torso with forward lean -->
-								<path d="M-10,38 Q-12,45 -8,52 L8,54 Q13,46 12,38 L13,60 Q13,70 2,72 L-14,70 Q-13,60 -13,38 Z"
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
 									fill="var(--jacket-light)"/>
 								<!-- Back/shoulder shading -->
 								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
@@ -1321,22 +1324,22 @@
 
 							<!-- Shoulders: pulled forward in tuck position -->
 							<g class="shoulders">
-								<ellipse cx="-13" cy="40" rx="4" ry="5" fill="var(--jacket-light)"/>
-								<ellipse cx="13" cy="41" rx="4" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
 							</g>
 
 							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
 								<!-- Upper arm close to torso -->
-								<path d="M-13,40 L-15,48 L-12,56 L-10,54 L-10,44 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
@@ -1344,15 +1347,15 @@
 							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
 								<!-- Upper arm close to torso -->
-								<path d="M13,41 L15,49 L12,57 L10,55 L10,45 Z" fill="var(--jacket-light)"/>
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
@@ -1448,7 +1451,7 @@
 							<!-- Torso: aggressive forward tilt, compact -->
 							<g class="torso">
 								<!-- Main torso with forward lean -->
-								<path d="M-10,38 Q-12,45 -8,52 L8,54 Q13,46 12,38 L13,60 Q13,70 2,72 L-14,70 Q-13,60 -13,38 Z"
+								<path d="M-8,38 Q-10,45 -7,52 L7,54 Q11,46 10,38 L11,60 Q11,70 2,72 L-12,70 Q-11,60 -11,38 Z"
 									fill="var(--jacket-light)"/>
 								<!-- Back/shoulder shading -->
 								<path d="M-10,40 Q-12,46 -10,54 L-10,68 Q-11,70 -12,70 L-12,50 Q-12,44 -10,40 Z" fill="var(--jacket-dark)" opacity="0.35"/>
@@ -1463,22 +1466,22 @@
 
 							<!-- Shoulders: pulled forward in tuck position -->
 							<g class="shoulders">
-								<ellipse cx="-13" cy="40" rx="4" ry="5" fill="var(--jacket-light)"/>
-								<ellipse cx="13" cy="41" rx="4" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="-11" cy="40" rx="3.5" ry="5" fill="var(--jacket-light)"/>
+								<ellipse cx="11" cy="41" rx="3.5" ry="5" fill="var(--jacket-light)"/>
 							</g>
 
 							<!-- Back arm + pole: glued to body in tuck -->
 							<g class="arm arm-back">
 								<!-- Upper arm close to torso -->
-								<path d="M-13,40 L-15,48 L-12,56 L-10,54 L-10,44 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,40 L-13,48 L-11,55 L-9,54 L-9,44 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M-12,56 L-11,63 L-8,64 L-10,56 Z" fill="var(--jacket-light)"/>
+								<path d="M-11,55 L-10,62 L-8,63 L-9,55 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="-10" cy="65" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="-9" cy="63" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="-10" y1="66" x2="-18" y2="105" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="-11" y="64" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="-10" y="62" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="-18" cy="105" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
@@ -1486,15 +1489,15 @@
 							<!-- Front arm + pole: glued to body in tuck -->
 							<g class="arm arm-front">
 								<!-- Upper arm close to torso -->
-								<path d="M13,41 L15,49 L12,57 L10,55 L10,45 Z" fill="var(--jacket-light)"/>
+								<path d="M11,41 L13,49 L11,56 L9,54 L9,45 Z" fill="var(--jacket-light)"/>
 								<!-- Forearm bent -->
-								<path d="M12,57 L11,64 L8,65 L10,57 Z" fill="var(--jacket-light)"/>
+								<path d="M11,56 L10,63 L8,64 L9,56 Z" fill="var(--jacket-light)"/>
 								<!-- Hand at pole grip -->
-								<ellipse cx="10" cy="66" rx="2" ry="1.8" fill="#1a1a1a"/>
+								<ellipse cx="9" cy="64" rx="1.8" ry="1.6" fill="#1a1a1a"/>
 								<!-- Pole: angled back behind body in tuck (race style) -->
 								<line class="pole-shaft" x1="10" y1="67" x2="18" y2="106" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"/>
 								<!-- Pole grip -->
-								<rect x="9" y="65" width="2" height="3" fill="#cc3333" rx="0.4"/>
+								<rect x="8" y="63" width="1.8" height="2.5" fill="#cc3333" rx="0.3"/>
 								<!-- Basket near tip -->
 								<ellipse cx="18" cy="106" rx="2.2" ry="0.8" fill="#aaaaaa" stroke="#666" stroke-width="0.2" opacity="0.9"/>
 							</g>
